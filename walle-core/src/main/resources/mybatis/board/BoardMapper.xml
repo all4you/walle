@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ngnis.walle.datasource.db.board.BoardMapper">
+  <resultMap id="BaseResultMap" type="com.ngnis.walle.datasource.db.board.BoardDO">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
+    <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
+    <result column="is_deleted" jdbcType="TINYINT" property="isDeleted" />
+    <result column="user_id" jdbcType="BIGINT" property="userId" />
+    <result column="board_code" jdbcType="VARCHAR" property="boardCode" />
+    <result column="board_name" jdbcType="VARCHAR" property="boardName" />
+    <result column="message_type" jdbcType="VARCHAR" property="messageType" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="at_all" jdbcType="TINYINT" property="atAll" />
+    <result column="link_message_url" jdbcType="VARCHAR" property="linkMessageUrl" />
+    <result column="link_pic_url" jdbcType="VARCHAR" property="linkPicUrl" />
+    <result column="content" jdbcType="LONGVARCHAR" property="content" />
+    <result column="address_list" jdbcType="LONGVARCHAR" property="addressList" />
+  </resultMap>
+
+  <sql id="Base_Column_List">
+      id, gmt_create, gmt_modified, is_deleted, user_id,
+      board_code, board_name, message_type, title, content,
+      at_all, link_message_url, link_pic_url, address_list
+  </sql>
+
+  <sql id="WhereCondition">
+    where is_deleted = 0
+    and user_id = #{record.userId}
+    <if test="record.query != null">
+      and (
+        board_code like concat('%', #{record.query},'%')
+        or board_name like concat('%', #{record.query},'%')
+      )
+    </if>
+    <if test="record.messageType != null">
+      and message_type = #{record.messageType}
+    </if>
+  </sql>
+
+  <select id="selectListByCondition" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from board
+    <include refid="WhereCondition" />
+  </select>
+  
+  
+</mapper>

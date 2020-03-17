@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.alibaba.walle</groupId>
+    <artifactId>walle</artifactId>
+    <packaging>pom</packaging>
+    <version>0.0.1</version>
+
+    <properties>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven-antrun-version>1.8</maven-antrun-version>
+        <java.version>1.8</java.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <walle-version>0.0.1</walle-version>
+        <spring-version>4.3.18.RELEASE</spring-version>
+        <spring-boot-version>1.5.12.RELEASE</spring-boot-version>
+        <hibernate-version>5.3.6.Final</hibernate-version>
+        <validation-version>1.1.0.Final</validation-version>
+        <orika-version>1.5.1</orika-version>
+        <velocity-version>1.7</velocity-version>
+        <slf4j-api-version>1.7.25</slf4j-api-version>
+        <logback-classic-version>1.1.11</logback-classic-version>
+        <lombok-version>1.16.20</lombok-version>
+        <mysql-version>5.1.30</mysql-version>
+        <mapper-spring-boot-starter-version>2.0.2</mapper-spring-boot-starter-version>
+        <pagehelper-spring-boot-starter-version>1.2.5</pagehelper-spring-boot-starter-version>
+        <hutool-version>4.1.20</hutool-version>
+        <fastjson-version>1.2.47</fastjson-version>
+        <java-jwt-version>3.10.0</java-jwt-version>
+        <junit-version>4.12</junit-version>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
+            <version>${spring-version}</version>
+            <optional>true</optional>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>${junit-version}</version>
+            <optional>true</optional>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <modules>
+        <module>walle-core</module>
+    </modules>
+
+</project>
