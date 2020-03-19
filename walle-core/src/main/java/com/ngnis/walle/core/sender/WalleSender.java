@@ -18,6 +18,7 @@ import org.springframework.web.client.RestTemplate;
 
 /**
  * 默认的内容发送器实现
+ * 官方文档：https://ding-doc.dingtalk.com/doc#/serverapi2/qf2nxq
  *
  * @author houyi.wh
  * @since 2018-09-09
