@@ -5,9 +5,6 @@ import com.ngnis.walle.common.result.PojoResult;
 import com.ngnis.walle.core.SignatureUtil;
 import com.ngnis.walle.core.board.Address;
 import com.ngnis.walle.core.message.Message;
-import com.ngnis.walle.common.result.PojoResult;
-import com.ngnis.walle.core.board.Address;
-import com.ngnis.walle.core.message.Message;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +12,9 @@ import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponentsBuilder;
+
+import java.net.URI;
 
 /**
  * 默认的内容发送器实现
@@ -38,15 +38,19 @@ public class WalleSender implements Sender {
         check(address, message, responseType);
         // 请求实体，包括请求头和请求体
         HttpEntity<String> requestEntity = entity(message);
+        String requestUrl = getUrl(address);
+        // 通过UriComponentsBuilder创建URI对象，这样RestTemplate不会自动进行 URLEncode
+        UriComponentsBuilder uriComponentsBuilder = UriComponentsBuilder.fromHttpUrl(requestUrl);
+        URI uri = uriComponentsBuilder.build(true).toUri();
         // 发送POST请求
-        ResponseEntity<T> responseEntity = restTemplate.exchange(getUrl(address), HttpMethod.POST, requestEntity, responseType);
+        ResponseEntity<T> responseEntity = restTemplate.exchange(uri, HttpMethod.POST, requestEntity, responseType);
         // 处理返回的Entity
         return parseResponse(responseEntity);
     }
 
     private void check(Address address, Message message, Class<?> responseType) {
         if (address == null || !address.valid()) {
-            throw new IllegalArgumentException("webHook should not be empty");
+            throw new IllegalArgumentException("address should not be empty");
         }
         if (message == null || !message.valid() || StringUtils.isEmpty(message.content())) {
             throw new IllegalArgumentException("message should not be empty");
@@ -70,7 +74,6 @@ public class WalleSender implements Sender {
             String sign = SignatureUtil.sign(timestamp, secret);
             url += "&timestamp=" + timestamp + "&sign=" + sign;
         }
-        log.info("url={}", url);
         return url;
     }
 
