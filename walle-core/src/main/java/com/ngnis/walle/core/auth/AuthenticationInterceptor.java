@@ -71,7 +71,7 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
             HttpContext httpContext = HttpContext.currentContext();
             httpContext.setToken(token);
             httpContext.setUserId(userId);
-            GenericLogUtil.invokeSuccess(log, "storeUserInfo", StrFormatter.format("token={}", token), StrFormatter.format("userId={}", userId));
+            GenericLogUtil.debugSuccess(log, "storeUserInfo", StrFormatter.format("token={}", token), StrFormatter.format("userId={}", userId));
 
             return true;
         }
