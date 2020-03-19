@@ -1,10 +1,16 @@
 package com.ngnis.walle.core.board;
 
+import cn.hutool.core.text.StrFormatter;
+import cn.hutool.core.util.BooleanUtil;
+import cn.hutool.core.util.StrUtil;
+import com.googlecode.aviator.AviatorEvaluator;
+import com.ngnis.walle.common.GenericLogUtil;
 import com.ngnis.walle.common.bean.BeanValidator;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.hibernate.validator.constraints.NotBlank;
 
 import java.util.Map;
@@ -19,6 +25,7 @@ import java.util.Map;
  * @author houyi.wh
  * @since 2018-09-14
  */
+@Slf4j
 @Builder
 @Data
 @NoArgsConstructor
@@ -62,7 +69,17 @@ public class Address {
     }
 
     public boolean matchCondition(Map<String, Object> data) {
-        return true;
+        boolean isMatch = true;
+        if (StrUtil.isNotBlank(condition)) {
+            try {
+                Object executeResult = AviatorEvaluator.execute(condition, data);
+                isMatch = BooleanUtil.isTrue((Boolean) executeResult);
+            } catch (Exception e) {
+                GenericLogUtil.invokeError(log, "matchCondition", StrFormatter.format("condition={}, data={}", condition, data), e);
+                isMatch = false;
+            }
+        }
+        return isMatch;
     }
 
 }

@@ -88,6 +88,12 @@
         </dependency>
 
         <dependency>
+            <groupId>com.googlecode.aviator</groupId>
+            <artifactId>aviator</artifactId>
+            <version>${aviator-version}</version>
+        </dependency>
+
+        <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
             <version>${mysql-version}</version>
