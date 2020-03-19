@@ -3,9 +3,9 @@ package com.ngnis.walle.core.robot;
 import com.ngnis.walle.common.result.BaseResult;
 import com.ngnis.walle.common.result.PageResult;
 import com.ngnis.walle.common.result.PojoResult;
-import com.ngnis.walle.core.board.Board;
-import com.ngnis.walle.web.BoardQueryDTO;
-import com.ngnis.walle.web.SendMessageDTO;
+import com.ngnis.walle.core.board.GroupBoard;
+import com.ngnis.walle.web.GroupBoardQueryDTO;
+import com.ngnis.walle.web.SendGroupMessageDTO;
 
 /**
  * 对外提供的所有服务都通过这个接口来提供
@@ -21,7 +21,7 @@ public interface Robot {
      * @param board 模板
      * @return 是否成功
      */
-    BaseResult createBoard(Board board);
+    BaseResult createGroupBoard(GroupBoard board);
 
     /**
      * 修改模板
@@ -29,7 +29,7 @@ public interface Robot {
      * @param board 模板
      * @return 是否成功
      */
-    BaseResult modifyBoard(Board board);
+    BaseResult modifyGroupBoard(GroupBoard board);
 
     /**
      * 删除模板
@@ -37,7 +37,7 @@ public interface Robot {
      * @param boardCode 模板编码
      * @return 是否成功
      */
-    BaseResult removeBoard(String boardCode);
+    BaseResult removeGroupBoard(String boardCode);
 
     /**
      * 根据查询条件获取分页的结果
@@ -45,21 +45,21 @@ public interface Robot {
      * @param queryDTO 查询条件
      * @return 分页结果
      */
-    PageResult<Board> getBoardPage(BoardQueryDTO queryDTO);
+    PageResult<GroupBoard> getGroupBoardPage(GroupBoardQueryDTO queryDTO);
 
     /**
      * 获取模板详情
      *
      * @param boardCode 模板编码
      */
-    PojoResult<Board> findBoard(String boardCode);
+    PojoResult<GroupBoard> findGroupBoard(String boardCode);
 
     /**
-     * 发送消息
+     * 发送群消息
      *
      * @param dto 发送消息对象
      * @return 返回的结果
      */
-    BaseResult sendMessage(SendMessageDTO dto);
+    BaseResult sendGroupMessage(SendGroupMessageDTO dto);
 
 }

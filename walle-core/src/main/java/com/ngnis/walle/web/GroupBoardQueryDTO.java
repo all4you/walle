@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class BoardQueryDTO extends PageDTO {
+public class GroupBoardQueryDTO extends PageDTO {
 
     private Long userId;
 

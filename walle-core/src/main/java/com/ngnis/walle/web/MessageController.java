@@ -3,8 +3,6 @@ package com.ngnis.walle.web;
 import com.ngnis.walle.common.result.BaseResult;
 import com.ngnis.walle.core.auth.CheckToken;
 import com.ngnis.walle.core.robot.Robot;
-import com.ngnis.walle.common.result.BaseResult;
-import com.ngnis.walle.core.robot.Robot;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -35,8 +33,8 @@ public class MessageController {
      */
     @CheckToken
     @PostMapping(ApiConstant.Urls.SEND_MESSAGE)
-    public BaseResult sendMessage(@RequestBody SendMessageDTO dto) {
-        return robot.sendMessage(dto);
+    public BaseResult sendMessage(@RequestBody SendGroupMessageDTO dto) {
+        return robot.sendGroupMessage(dto);
     }
 
 

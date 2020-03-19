@@ -48,7 +48,7 @@ create table user (
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COMMENT='用户表';
 
 
-create table board (
+create table group_board (
   `id` BIGINT(20) NOT NULL AUTO_INCREMENT COMMENT '主键',
   `gmt_create` DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `gmt_modified` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
@@ -65,7 +65,7 @@ create table board (
   `address_list` TEXT NOT NULL COMMENT '消息的接收者列表，JSONArray格式',
   PRIMARY KEY (`id`),
   KEY `idx_board_code` (`board_code`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COMMENT='需要发送的消息模板';
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COMMENT='需要发送的群消息模板';
 
 
 

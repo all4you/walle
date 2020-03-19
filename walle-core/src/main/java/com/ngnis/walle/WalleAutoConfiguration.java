@@ -1,6 +1,6 @@
 package com.ngnis.walle;
 
-import com.ngnis.walle.core.board.BoardFactory;
+import com.ngnis.walle.core.board.GroupBoardFactory;
 import com.ngnis.walle.core.board.DataBaseBoardFactory;
 import com.ngnis.walle.core.board.MemoryBoardFactory;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -57,9 +57,9 @@ public class WalleAutoConfiguration {
      * 默认创建MemoryBoardFactory
      */
     @Bean
-    @ConditionalOnMissingBean(BoardFactory.class)
+    @ConditionalOnMissingBean(GroupBoardFactory.class)
     @ConditionalOnProperty(name = "walle.common.board-factory", havingValue = "memory", matchIfMissing = true)
-    public BoardFactory memoryBoardFactory() {
+    public GroupBoardFactory memoryBoardFactory() {
         return new MemoryBoardFactory();
     }
 
@@ -67,9 +67,9 @@ public class WalleAutoConfiguration {
      * 创建DataBaseBoardFactory
      */
     @Bean
-    @ConditionalOnMissingBean(BoardFactory.class)
+    @ConditionalOnMissingBean(GroupBoardFactory.class)
     @ConditionalOnProperty(name = "walle.common.board-factory", havingValue = "db")
-    public BoardFactory databaseBoardFactory() {
+    public GroupBoardFactory databaseBoardFactory() {
         return new DataBaseBoardFactory();
     }
 

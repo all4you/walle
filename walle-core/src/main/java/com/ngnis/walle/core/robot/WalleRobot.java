@@ -12,14 +12,14 @@ import com.ngnis.walle.common.result.PageResult;
 import com.ngnis.walle.common.result.PojoResult;
 import com.ngnis.walle.common.result.ResultCode;
 import com.ngnis.walle.core.board.Address;
-import com.ngnis.walle.core.board.Board;
-import com.ngnis.walle.core.board.BoardFactory;
+import com.ngnis.walle.core.board.GroupBoard;
+import com.ngnis.walle.core.board.GroupBoardFactory;
 import com.ngnis.walle.core.board.Spanner;
 import com.ngnis.walle.core.message.Message;
 import com.ngnis.walle.core.sender.DingTalkResponse;
 import com.ngnis.walle.core.sender.Sender;
-import com.ngnis.walle.web.BoardQueryDTO;
-import com.ngnis.walle.web.SendMessageDTO;
+import com.ngnis.walle.web.GroupBoardQueryDTO;
+import com.ngnis.walle.web.SendGroupMessageDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,7 +41,7 @@ import java.util.Map;
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class WalleRobot implements Robot {
 
-    private final BoardFactory boardFactory;
+    private final GroupBoardFactory boardFactory;
 
     private final Spanner spanner;
 
@@ -50,61 +50,61 @@ public class WalleRobot implements Robot {
     /**
      * 设置当前用户id
      */
-    private void fillUserId(Board board) {
+    private void fillUserId(GroupBoard board) {
         if (board == null) {
-            board = new Board();
+            board = new GroupBoard();
         }
         board.setUserId(HttpContext.currentContext().getUserId());
     }
 
-    private void fillUserId(BoardQueryDTO queryDTO) {
+    private void fillUserId(GroupBoardQueryDTO queryDTO) {
         if (queryDTO == null) {
-            queryDTO = new BoardQueryDTO();
+            queryDTO = new GroupBoardQueryDTO();
         }
         queryDTO.setUserId(HttpContext.currentContext().getUserId());
     }
 
-    private Board newBoard(String boardCode) {
+    private GroupBoard newBoard(String boardCode) {
         Long userId = HttpContext.currentContext().getUserId();
-        return Board.builder()
+        return GroupBoard.builder()
                 .userId(userId)
                 .boardCode(boardCode)
                 .build();
     }
 
     @Override
-    public BaseResult createBoard(Board board) {
+    public BaseResult createGroupBoard(GroupBoard board) {
         fillUserId(board);
-        log.info("createBoard with board={}", board);
-        return boardFactory.createBoard(board);
+        log.info("createGroupBoard with board={}", board);
+        return boardFactory.createGroupBoard(board);
     }
 
     @Override
-    public BaseResult modifyBoard(Board board) {
+    public BaseResult modifyGroupBoard(GroupBoard board) {
         fillUserId(board);
-        log.info("modifyBoard with board={}", board);
-        return boardFactory.modifyBoard(board);
+        log.info("modifyGroupBoard with board={}", board);
+        return boardFactory.modifyGroupBoard(board);
     }
 
     @Override
-    public BaseResult removeBoard(String boardCode) {
-        Board board = newBoard(boardCode);
-        log.info("removeBoard with board={}", board);
-        return boardFactory.removeBoard(board);
+    public BaseResult removeGroupBoard(String boardCode) {
+        GroupBoard board = newBoard(boardCode);
+        log.info("removeGroupBoard with board={}", board);
+        return boardFactory.removeGroupBoard(board);
     }
 
     @Override
-    public PageResult<Board> getBoardPage(BoardQueryDTO queryDTO) {
+    public PageResult<GroupBoard> getGroupBoardPage(GroupBoardQueryDTO queryDTO) {
         fillUserId(queryDTO);
-        return boardFactory.getBoardPage(queryDTO);
+        return boardFactory.getGroupBoardPage(queryDTO);
     }
 
     @Override
-    public PojoResult<Board> findBoard(String boardCode) {
-        Board query = newBoard(boardCode);
-        log.info("findBoard with query={}", query);
-        PojoResult<Board> pojoResult = new PojoResult<>();
-        Board board = boardFactory.findBoard(query);
+    public PojoResult<GroupBoard> findGroupBoard(String boardCode) {
+        GroupBoard query = newBoard(boardCode);
+        log.info("findGroupBoard with query={}", query);
+        PojoResult<GroupBoard> pojoResult = new PojoResult<>();
+        GroupBoard board = boardFactory.findGroupBoard(query);
         if (board == null) {
             pojoResult.setErrorMessage(ResultCode.RESOURCE_NOT_FOUND.getCode(), "模板不存在");
         } else {
@@ -114,7 +114,7 @@ public class WalleRobot implements Robot {
     }
 
     @Override
-    public BaseResult sendMessage(SendMessageDTO dto) {
+    public BaseResult sendGroupMessage(SendGroupMessageDTO dto) {
         BaseResult baseResult = BeanValidator.validate(dto);
         if (!baseResult.isSuccess()) {
             return baseResult;
@@ -128,8 +128,8 @@ public class WalleRobot implements Robot {
                 return baseResult;
             }
         }
-        Board query = newBoard(dto.getBoardCode());
-        Board board = boardFactory.findBoard(query);
+        GroupBoard query = newBoard(dto.getBoardCode());
+        GroupBoard board = boardFactory.findGroupBoard(query);
         if (board == null) {
             baseResult.setErrorMessage(ResultCode.RESOURCE_NOT_FOUND.getCode(), "模板不存在");
             return baseResult;
@@ -153,7 +153,7 @@ public class WalleRobot implements Robot {
         if (CollectionUtil.isNotEmpty(reasons)) {
             baseResult.setErrorMessage(ResultCode.BIZ_FAIL.getCode(), String.join("##", reasons));
         }
-        GenericLogUtil.invokeSuccess(log, "sendMessage", StrFormatter.format("dto={}", JSON.toJSONString(dto)), StrFormatter.format("baseResult={}", JSON.toJSONString(baseResult)));
+        GenericLogUtil.invokeSuccess(log, "sendGroupMessage", StrFormatter.format("dto={}", JSON.toJSONString(dto)), StrFormatter.format("baseResult={}", JSON.toJSONString(baseResult)));
         return baseResult;
     }
 }

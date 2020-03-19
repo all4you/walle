@@ -12,8 +12,8 @@ import java.util.Date;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "board")
-public class BoardDO {
+@Table(name = "group_board")
+public class GroupBoardDO {
     /**
      * 主键
      */

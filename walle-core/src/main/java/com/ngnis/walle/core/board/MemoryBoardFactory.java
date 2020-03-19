@@ -9,11 +9,7 @@ import com.ngnis.walle.common.result.BaseResult;
 import com.ngnis.walle.common.result.Page;
 import com.ngnis.walle.common.result.PageResult;
 import com.ngnis.walle.common.result.ResultCode;
-import com.ngnis.walle.web.BoardQueryDTO;
-import com.ngnis.walle.common.BeanUtil;
-import com.ngnis.walle.common.result.BaseResult;
-import com.ngnis.walle.common.result.ResultCode;
-import com.ngnis.walle.web.BoardQueryDTO;
+import com.ngnis.walle.web.GroupBoardQueryDTO;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
@@ -25,9 +21,9 @@ import java.util.stream.Collectors;
  * @author houyi
  */
 @Slf4j
-public class MemoryBoardFactory implements BoardFactory {
+public class MemoryBoardFactory implements GroupBoardFactory {
 
-    private Map<String, Board> boardMap;
+    private Map<String, GroupBoard> boardMap;
 
     private Spanner spanner;
 
@@ -37,7 +33,7 @@ public class MemoryBoardFactory implements BoardFactory {
     }
 
     @Override
-    public synchronized BaseResult createBoard(Board board) {
+    public synchronized BaseResult createGroupBoard(GroupBoard board) {
         BaseResult baseResult = spanner.check(board);
         if (!baseResult.isSuccess()) {
             return baseResult;
@@ -54,13 +50,13 @@ public class MemoryBoardFactory implements BoardFactory {
     }
 
     @Override
-    public synchronized BaseResult modifyBoard(Board board) {
+    public synchronized BaseResult modifyGroupBoard(GroupBoard board) {
         BaseResult baseResult = spanner.check(board);
         if (!baseResult.isSuccess()) {
             return baseResult;
         }
         String boardCode = board.getBoardCode();
-        Board existsBoard = findBoard(board);
+        GroupBoard existsBoard = findGroupBoard(board);
         if (existsBoard == null) {
             baseResult.setErrorMessage(ResultCode.RESOURCE_NOT_FOUND.getCode(), StrFormatter.format("模板编号({})不存在", boardCode));
             return baseResult;
@@ -70,9 +66,9 @@ public class MemoryBoardFactory implements BoardFactory {
     }
 
     @Override
-    public synchronized BaseResult removeBoard(Board board) {
+    public synchronized BaseResult removeGroupBoard(GroupBoard board) {
         BaseResult baseResult = new BaseResult();
-        Board existsBoard = findBoard(board);
+        GroupBoard existsBoard = findGroupBoard(board);
         String boardCode = board.getBoardCode();
         if (existsBoard == null) {
             baseResult.setErrorMessage(ResultCode.RESOURCE_NOT_FOUND.getCode(), StrFormatter.format("模板编号({})不存在", boardCode));
@@ -83,7 +79,7 @@ public class MemoryBoardFactory implements BoardFactory {
     }
 
     @Override
-    public Board findBoard(Board board) {
+    public GroupBoard findGroupBoard(GroupBoard board) {
         String boardCode = board.getBoardCode();
         if (StrUtil.isBlank(boardCode)) {
             return null;
@@ -92,10 +88,10 @@ public class MemoryBoardFactory implements BoardFactory {
     }
 
     @Override
-    public PageResult<Board> getBoardPage(BoardQueryDTO queryDTO) {
+    public PageResult<GroupBoard> getGroupBoardPage(GroupBoardQueryDTO queryDTO) {
         int pageNo = queryDTO.getPageNo();
         int pageSize = queryDTO.getPageSize();
-        List<Board> boards = CollectionUtil.newArrayList(boardMap.values());
+        List<GroupBoard> boards = CollectionUtil.newArrayList(boardMap.values());
         String query = queryDTO.getQuery();
         if (StrUtil.isNotBlank(query)) {
             boards = boards.stream()
@@ -103,8 +99,8 @@ public class MemoryBoardFactory implements BoardFactory {
                     .collect(Collectors.toList());
         }
         int totalCount = boards.size();
-        PageResult<Board> pageResult = new PageResult<>();
-        Page<Board> page = new Page<>();
+        PageResult<GroupBoard> pageResult = new PageResult<>();
+        Page<GroupBoard> page = new Page<>();
         page.setTotalCount((long) totalCount);
         page.setCurrentPage(pageNo);
         page.setPageSize(pageSize);
@@ -114,7 +110,7 @@ public class MemoryBoardFactory implements BoardFactory {
             if (toIndex > totalCount) {
                 toIndex = totalCount;
             }
-            List<Board> pageList = boards.subList(fromIndex, toIndex);
+            List<GroupBoard> pageList = boards.subList(fromIndex, toIndex);
             page.setItems(pageList);
         }
         pageResult.setContent(page);

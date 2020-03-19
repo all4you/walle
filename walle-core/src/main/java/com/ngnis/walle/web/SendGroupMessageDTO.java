@@ -7,7 +7,7 @@ import org.hibernate.validator.constraints.NotBlank;
  * @author houyi
  */
 @Data
-public class SendMessageDTO {
+public class SendGroupMessageDTO {
 
     @NotBlank(message = "模板编码不能为空")
     private String boardCode;

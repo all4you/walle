@@ -2,17 +2,14 @@ package com.ngnis.walle.core.board;
 
 import com.ngnis.walle.common.result.BaseResult;
 import com.ngnis.walle.common.result.PageResult;
-import com.ngnis.walle.web.BoardQueryDTO;
-import com.ngnis.walle.common.result.BaseResult;
-import com.ngnis.walle.common.result.PageResult;
-import com.ngnis.walle.web.BoardQueryDTO;
+import com.ngnis.walle.web.GroupBoardQueryDTO;
 
 /**
- * 模板工厂
+ * 群消息模板工厂
  *
  * @author houyi
  */
-public interface BoardFactory {
+public interface GroupBoardFactory {
 
     /**
      * 创建模板
@@ -20,7 +17,7 @@ public interface BoardFactory {
      * @param board 模板
      * @return 是否成功
      */
-    BaseResult createBoard(Board board);
+    BaseResult createGroupBoard(GroupBoard board);
 
     /**
      * 修改模板
@@ -28,7 +25,7 @@ public interface BoardFactory {
      * @param board 模板
      * @return 是否成功
      */
-    BaseResult modifyBoard(Board board);
+    BaseResult modifyGroupBoard(GroupBoard board);
 
     /**
      * 删除模板
@@ -36,7 +33,7 @@ public interface BoardFactory {
      * @param board 模板编码
      * @return 是否成功
      */
-    BaseResult removeBoard(Board board);
+    BaseResult removeGroupBoard(GroupBoard board);
 
     /**
      * 查询模板
@@ -44,7 +41,7 @@ public interface BoardFactory {
      * @param board 模板编码
      * @return 模板
      */
-    Board findBoard(Board board);
+    GroupBoard findGroupBoard(GroupBoard board);
 
     /**
      * 根据查询条件获取分页的结果
@@ -52,6 +49,6 @@ public interface BoardFactory {
      * @param queryDTO 查询条件
      * @return 分页结果
      */
-    PageResult<Board> getBoardPage(BoardQueryDTO queryDTO);
+    PageResult<GroupBoard> getGroupBoardPage(GroupBoardQueryDTO queryDTO);
 
 }

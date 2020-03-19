@@ -8,8 +8,6 @@ import com.ngnis.walle.common.bean.BeanValidator;
 import com.ngnis.walle.common.result.BaseResult;
 import com.ngnis.walle.common.result.ResultCode;
 import com.ngnis.walle.core.message.*;
-import com.ngnis.walle.common.result.BaseResult;
-import com.ngnis.walle.common.result.ResultCode;
 import com.ngnis.walle.core.message.MarkdownMessage;
 import org.springframework.stereotype.Component;
 
@@ -23,7 +21,7 @@ import java.util.Map;
 public class DefaultSpanner implements Spanner {
 
     @Override
-    public BaseResult check(Board board) {
+    public BaseResult check(GroupBoard board) {
         Assert.notNull(board, "模板不能为空");
         BaseResult baseResult = BeanValidator.validate(board);
         if (!baseResult.isSuccess()) {
@@ -60,7 +58,7 @@ public class DefaultSpanner implements Spanner {
     }
 
     @Override
-    public Message make(Board board, Map<String, Object> data) {
+    public Message make(GroupBoard board, Map<String, Object> data) {
         Assert.notNull(board, "模板不能为空");
         MessageType messageType = board.getMessageType();
         String boardCode = board.getBoardCode();

@@ -4,11 +4,7 @@ import com.ngnis.walle.common.result.BaseResult;
 import com.ngnis.walle.common.result.PageResult;
 import com.ngnis.walle.common.result.PojoResult;
 import com.ngnis.walle.core.auth.CheckToken;
-import com.ngnis.walle.core.board.Board;
-import com.ngnis.walle.core.robot.Robot;
-import com.ngnis.walle.common.result.BaseResult;
-import com.ngnis.walle.common.result.PojoResult;
-import com.ngnis.walle.core.board.Board;
+import com.ngnis.walle.core.board.GroupBoard;
 import com.ngnis.walle.core.robot.Robot;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -24,7 +20,7 @@ import javax.annotation.Resource;
  */
 @Slf4j
 @RestController
-public class BoardController {
+public class GroupBoardController {
 
     @Resource
     @Qualifier("walleRobot")
@@ -35,8 +31,8 @@ public class BoardController {
      */
     @CheckToken
     @GetMapping(ApiConstant.Urls.GET_BOARDS)
-    public PageResult<Board> getBoards(BoardQueryDTO queryDTO) {
-        return robot.getBoardPage(queryDTO);
+    public PageResult<GroupBoard> getGroupBoards(GroupBoardQueryDTO queryDTO) {
+        return robot.getGroupBoardPage(queryDTO);
     }
 
     /**
@@ -45,8 +41,8 @@ public class BoardController {
      */
     @CheckToken
     @PostMapping(ApiConstant.Urls.CREATE_BOARD)
-    public BaseResult createBoard(@RequestBody Board board) {
-        return robot.createBoard(board);
+    public BaseResult createGroupBoard(@RequestBody GroupBoard board) {
+        return robot.createGroupBoard(board);
     }
 
     /**
@@ -54,8 +50,8 @@ public class BoardController {
      */
     @CheckToken
     @PostMapping(ApiConstant.Urls.MODIFY_BOARD)
-    public BaseResult modifyBoard(@RequestBody Board board) {
-        return robot.modifyBoard(board);
+    public BaseResult modifyGroupBoard(@RequestBody GroupBoard board) {
+        return robot.modifyGroupBoard(board);
     }
 
     /**
@@ -63,8 +59,8 @@ public class BoardController {
      */
     @CheckToken
     @PostMapping(ApiConstant.Urls.REMOVE_BOARD)
-    public BaseResult removeBoard(@RequestParam String boardCode) {
-        return robot.removeBoard(boardCode);
+    public BaseResult removeGroupBoard(@RequestParam String boardCode) {
+        return robot.removeGroupBoard(boardCode);
     }
 
     /**
@@ -72,8 +68,8 @@ public class BoardController {
      */
     @CheckToken
     @GetMapping(ApiConstant.Urls.FIND_BOARD)
-    public PojoResult<Board> findBoard(@PathVariable String boardCode) {
-        return robot.findBoard(boardCode);
+    public PojoResult<GroupBoard> findGroupBoard(@PathVariable String boardCode) {
+        return robot.findGroupBoard(boardCode);
     }
 
 }
