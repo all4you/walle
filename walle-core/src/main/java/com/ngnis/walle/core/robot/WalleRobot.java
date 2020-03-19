@@ -2,10 +2,9 @@ package com.ngnis.walle.core.robot;
 
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.text.StrFormatter;
-import cn.hutool.core.util.BooleanUtil;
 import cn.hutool.core.util.StrUtil;
 import com.alibaba.fastjson.JSON;
-import com.googlecode.aviator.AviatorEvaluator;
+import com.ngnis.walle.common.GenericLogUtil;
 import com.ngnis.walle.common.HttpContext;
 import com.ngnis.walle.common.bean.BeanValidator;
 import com.ngnis.walle.common.result.BaseResult;
@@ -21,10 +20,6 @@ import com.ngnis.walle.core.sender.DingTalkResponse;
 import com.ngnis.walle.core.sender.Sender;
 import com.ngnis.walle.web.BoardQueryDTO;
 import com.ngnis.walle.web.SendMessageDTO;
-import com.ngnis.walle.common.result.BaseResult;
-import com.ngnis.walle.common.result.PojoResult;
-import com.ngnis.walle.common.result.ResultCode;
-import com.ngnis.walle.web.BoardQueryDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -120,7 +115,6 @@ public class WalleRobot implements Robot {
 
     @Override
     public BaseResult sendMessage(SendMessageDTO dto) {
-        log.info("sendMessage with dto={}", JSON.toJSONString(dto));
         BaseResult baseResult = BeanValidator.validate(dto);
         if (!baseResult.isSuccess()) {
             return baseResult;
@@ -159,6 +153,7 @@ public class WalleRobot implements Robot {
         if (CollectionUtil.isNotEmpty(reasons)) {
             baseResult.setErrorMessage(ResultCode.BIZ_FAIL.getCode(), String.join(",", reasons));
         }
+        GenericLogUtil.invokeSuccess(log, "sendMessage", StrFormatter.format("dto={}", JSON.toJSONString(dto)), StrFormatter.format("baseResult={}", JSON.toJSONString(baseResult)));
         return baseResult;
     }
 }
