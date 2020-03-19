@@ -1,15 +1,11 @@
 package com.ngnis.walle.core.robot;
 
-import com.ngnis.walle.common.page.PageDTO;
 import com.ngnis.walle.common.result.BaseResult;
 import com.ngnis.walle.common.result.PageResult;
 import com.ngnis.walle.common.result.PojoResult;
 import com.ngnis.walle.core.board.Board;
 import com.ngnis.walle.web.BoardQueryDTO;
 import com.ngnis.walle.web.SendMessageDTO;
-import com.ngnis.walle.common.result.BaseResult;
-import com.ngnis.walle.common.result.PojoResult;
-import com.ngnis.walle.web.BoardQueryDTO;
 
 /**
  * 对外提供的所有服务都通过这个接口来提供

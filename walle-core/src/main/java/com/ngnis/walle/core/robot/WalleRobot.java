@@ -138,7 +138,7 @@ public class WalleRobot implements Robot {
         List<String> reasons = new ArrayList<>();
         for (Address address : addresses) {
             if (!address.matchCondition(data)) {
-                reasons.add(StrFormatter.format("消息未发送，目标：({})，原因：条件不匹配", address.getName()));
+                reasons.add(StrFormatter.format("[消息未发送]目标:{},原因:条件不匹配", address.getName()));
                 continue;
             }
             // 将模板和数据转换成待发布的消息对象
@@ -147,11 +147,11 @@ public class WalleRobot implements Robot {
             PojoResult<DingTalkResponse> pojoResult = sender.send(address, message, DingTalkResponse.class);
             DingTalkResponse response = pojoResult.getContent();
             if (!pojoResult.isSuccess() || response.getErrcode() != 0) {
-                reasons.add(StrFormatter.format("发送消息失败，目标:({})，原因：{}({})", address.getName(), response.getErrmsg(), response.getErrcode()));
+                reasons.add(StrFormatter.format("[发送消息失败]目标:{},原因:{}({})", address.getName(), response.getErrmsg(), response.getErrcode()));
             }
         }
         if (CollectionUtil.isNotEmpty(reasons)) {
-            baseResult.setErrorMessage(ResultCode.BIZ_FAIL.getCode(), String.join(",", reasons));
+            baseResult.setErrorMessage(ResultCode.BIZ_FAIL.getCode(), String.join("##", reasons));
         }
         GenericLogUtil.invokeSuccess(log, "sendMessage", StrFormatter.format("dto={}", JSON.toJSONString(dto)), StrFormatter.format("baseResult={}", JSON.toJSONString(baseResult)));
         return baseResult;
