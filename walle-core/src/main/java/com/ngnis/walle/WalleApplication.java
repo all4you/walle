@@ -1,7 +1,6 @@
 package com.ngnis.walle;
 
 import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 import tk.mybatis.spring.annotation.MapperScan;
@@ -16,7 +15,6 @@ import tk.mybatis.spring.annotation.MapperScan;
  */
 @MapperScan("com.ngnis.walle.datasource.db")
 @ComponentScan(basePackages = "com.ngnis.walle")
-@EnableAutoConfiguration
 @SpringBootApplication
 public class WalleApplication {
 
