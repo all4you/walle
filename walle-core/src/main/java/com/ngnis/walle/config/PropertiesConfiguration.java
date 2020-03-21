@@ -1,6 +1,6 @@
-package com.ngnis.walle;
+package com.ngnis.walle.config;
 
-import com.ngnis.walle.common.properties.WalleProperties;
+import com.ngnis.walle.config.properties.WalleProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 

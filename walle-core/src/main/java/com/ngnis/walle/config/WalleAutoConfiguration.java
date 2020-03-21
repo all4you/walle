@@ -1,8 +1,9 @@
-package com.ngnis.walle;
+package com.ngnis.walle.config;
 
-import com.ngnis.walle.core.board.GroupBoardFactory;
 import com.ngnis.walle.core.board.DataBaseBoardFactory;
+import com.ngnis.walle.core.board.GroupBoardFactory;
 import com.ngnis.walle.core.board.MemoryBoardFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
@@ -20,6 +21,7 @@ import org.springframework.web.filter.CorsFilter;
  * @author houyi.wh
  * @since 2018-09-09
  */
+@Slf4j
 @Configuration
 public class WalleAutoConfiguration {
 

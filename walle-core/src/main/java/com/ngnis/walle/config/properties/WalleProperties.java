@@ -1,4 +1,4 @@
-package com.ngnis.walle.common.properties;
+package com.ngnis.walle.config.properties;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;

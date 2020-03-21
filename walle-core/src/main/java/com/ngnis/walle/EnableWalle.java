@@ -1,5 +1,6 @@
 package com.ngnis.walle;
 
+import com.ngnis.walle.config.WalleAutoConfiguration;
 import org.springframework.context.annotation.Import;
 
 import java.lang.annotation.*;
