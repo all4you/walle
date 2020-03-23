@@ -3,7 +3,7 @@
 ### 下载项目
 
 ```sh
-git clone https://github.com/all4you/walle
+git clone http://gitlab.alibaba-inc.com/houyi.wh/walle
 ```
 
 ### 打包项目
