@@ -4,7 +4,7 @@
 
 
 
-首先，我们需要先[将项目运行起来](./md/quick-start.md)。
+首先，我们需要先[将项目运行起来](md/quick-start.md)。
 
 
 
@@ -14,11 +14,11 @@
 
 系统会进入登录页面，如下图所示：
 
-![login](./md/readme/login.jpg)
+![login](md/readme/login.jpg)
 
 项目没有内置账号，我们点击 “马上注册”，进入账号注册页面：
 
-![register](./md/readme/register.jpg)
+![register](md/readme/register.jpg)
 
 注册成功后，自动跳转回登录页面，输入注册好的账号密码之后，然后点击登录进入首页。
 
@@ -30,13 +30,13 @@
 
 然后点击右上角的“新增”按钮，进入创建模板页面，如下图所示：
 
-![group_board_create1](./md/readme/group_board_create1.jpg)
+![group_board_create1](md/readme/group_board_create1.jpg)
 
 目前共支持三种类型的群消息：Text、Markdown、Link。
 
 我们以发送 Markdown 类型的群消息为例，创建一个消息模板，具体的内容如下所示：
 
-![group_board_create2](./md/readme/group_board_create2.jpg)
+![group_board_create2](md/readme/group_board_create2.jpg)
 
 因为是 Markdown 类型，所以正文是一个 Markdown 编辑器来编辑的，必须是 Markdown 的语法。
 
@@ -67,7 +67,7 @@
 
 选择一个模板然后点击发送消息的按钮，进入消息发送页面，如下图所示：
 
-![send_msg_1](./md/readme/send_msg_1.jpg)
+![send_msg_1](md/readme/send_msg_1.jpg)
 
 发送消息时是可以携带数据的，模板的正文、标题会通过 Velocity 渲染成最终的结果。
 
@@ -75,15 +75,15 @@
 
 数据编辑好之后，点击发送，不出意外应该会发送成功，如下图所示：
 
-![send_msg_success_1](./md/readme/send_msg_success_1.jpg)
+![send_msg_success_1](md/readme/send_msg_success_1.jpg)
 
 然后你的钉钉群将收到消息，如下图所示：
 
-![send_msg_success_2](./md/readme/send_msg_success_2.jpg)
+![send_msg_success_2](md/readme/send_msg_success_2.jpg)
 
 如果我们携带的数据只有一个 level 字段时，那将会收到这样的消息：
 
-![send_msg_success_3](./md/readme/send_msg_success_3.jpg)
+![send_msg_success_3](md/readme/send_msg_success_3.jpg)
 
 消息中来源和时间的值都是空的，而位置的值是 \${location} 这个字符串，这是根据模板中设置的变量有没有加感叹号确定的。
 
@@ -95,7 +95,7 @@
 
 
 
-### 擅用条件匹配
+### 善用条件匹配
 
 每个接收目标中可以设置一个条件表达式，发送之前会计算条件表达式的值，结果为 true 时才会发送消息。
 
@@ -105,7 +105,7 @@ PS：条件表达式的计算基于[aviator](https://github.com/killme2008/aviat
 
 如下图所示，当携带的数据是空时，消息发送失败：
 
-![send_msg_error_1](./md/readme/send_msg_error_1.jpg)
+![send_msg_error_1](md/readme/send_msg_error_1.jpg)
 
 利用条件表达式，我们可以做很多事情，比如：
 
