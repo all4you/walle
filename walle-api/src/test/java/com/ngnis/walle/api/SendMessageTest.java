@@ -20,9 +20,11 @@ public class SendMessageTest {
         WalleClient walleClient = new WalleHttpClient(config);
         // 设置请求参数
         GroupMessageDTO messageDTO = new GroupMessageDTO();
-        messageDTO.setBoardCode("non_green_code_alarm_markdown");
+        // 模板编号
+        messageDTO.setBoardCode("device_offline");
+        // 携带的数据
         JSONObject data = new JSONObject();
-        data.put("color", "red");
+        data.put("level", "high");
         messageDTO.setData(data.toJSONString());
         // 发送请求
         BaseResult result = walleClient.sendGroupMessage(messageDTO);
