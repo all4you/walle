@@ -5,7 +5,6 @@ import com.ngnis.walle.core.auth.CheckToken;
 import com.ngnis.walle.core.robot.Robot;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -20,8 +19,6 @@ import javax.annotation.Resource;
  */
 @Slf4j
 @RestController
-// 开发时用
-@CrossOrigin({"http://127.0.0.1:9528", "http://localhost:9528"})
 public class MessageController {
 
     @Resource

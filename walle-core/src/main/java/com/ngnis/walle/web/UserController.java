@@ -4,11 +4,9 @@ import com.ngnis.walle.common.result.BaseResult;
 import com.ngnis.walle.common.result.PojoResult;
 import com.ngnis.walle.core.auth.CheckToken;
 import com.ngnis.walle.core.user.UserDTO;
+import com.ngnis.walle.core.user.UserFacade;
 import com.ngnis.walle.core.user.UserLoginDTO;
 import com.ngnis.walle.core.user.UserRegisterDTO;
-import com.ngnis.walle.core.user.UserFacade;
-import com.ngnis.walle.common.result.BaseResult;
-import com.ngnis.walle.common.result.PojoResult;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 

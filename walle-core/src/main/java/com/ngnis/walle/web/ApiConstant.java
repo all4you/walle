@@ -25,6 +25,9 @@ public interface ApiConstant {
         String GET_USER_SK = "/sk";
         String USER_LOGOUT = "/logout";
 
+        String API = "/walle/api";
+        String SEND_GROUP_MSG = "/groupMsg/send";
+
     }
 
 }

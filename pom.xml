@@ -57,6 +57,7 @@
 
     <modules>
         <module>walle-core</module>
+        <module>walle-api</module>
     </modules>
 
 </project>

@@ -57,6 +57,17 @@ public class UserService {
         return userMapper.selectOneByExample(example);
     }
 
+    public UserDO getUserByAccessKey(String accessKey) {
+        if (StrUtil.isBlank(accessKey)) {
+            return null;
+        }
+        Example example = new Example(UserDO.class);
+        Example.Criteria criteria = example.createCriteria();
+        criteria.andEqualTo("isDeleted", Constants.NOT_DELETED);
+        criteria.andEqualTo("accessKey", accessKey);
+        return userMapper.selectOneByExample(example);
+    }
+
     public void saveUser(UserDO userDO) {
         userMapper.insertSelective(userDO);
     }

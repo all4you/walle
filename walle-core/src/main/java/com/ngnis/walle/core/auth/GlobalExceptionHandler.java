@@ -29,6 +29,9 @@ public class GlobalExceptionHandler {
         if (e instanceof InvalidTokenException) {
             errorCode = ((InvalidTokenException) e).getCode();
             errorMsg = e.getMessage();
+        } else if (e instanceof InvalidSignException) {
+            errorCode = ((InvalidSignException) e).getCode();
+            errorMsg = e.getMessage();
         } else {
             errorCode = ResultCode.BIZ_FAIL.getCode();
             errorMsg = StrUtil.isBlank(e.getMessage()) ? ResultCode.BIZ_FAIL.getMessage() : e.getMessage();
