@@ -5,10 +5,7 @@ import cn.hutool.core.text.StrFormatter;
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.StrUtil;
 import com.ngnis.walle.common.BeanUtil;
-import com.ngnis.walle.common.result.BaseResult;
-import com.ngnis.walle.common.result.Page;
-import com.ngnis.walle.common.result.PageResult;
-import com.ngnis.walle.common.result.ResultCode;
+import com.ngnis.walle.common.result.*;
 import com.ngnis.walle.web.GroupBoardQueryDTO;
 import lombok.extern.slf4j.Slf4j;
 
@@ -115,6 +112,14 @@ public class MemoryBoardFactory implements GroupBoardFactory {
         }
         pageResult.setContent(page);
         return pageResult;
+    }
+
+    @Override
+    public PojoResult<Integer> getGroupBoardCnt(Long userId) {
+        int cnt = boardMap.values().size();
+        PojoResult<Integer> pojoResult = new PojoResult<>();
+        pojoResult.setContent(cnt);
+        return pojoResult;
     }
 
 }

@@ -114,6 +114,11 @@ public class WalleRobot implements Robot {
     }
 
     @Override
+    public PojoResult<Integer> getGroupBoardCnt() {
+        return boardFactory.getGroupBoardCnt(HttpContext.currentContext().getUserId());
+    }
+
+    @Override
     public BaseResult sendGroupMessage(SendGroupMessageDTO dto) {
         BaseResult baseResult = BeanValidator.validate(dto);
         if (!baseResult.isSuccess()) {

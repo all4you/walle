@@ -2,6 +2,7 @@ package com.ngnis.walle.core.board;
 
 import com.ngnis.walle.common.result.BaseResult;
 import com.ngnis.walle.common.result.PageResult;
+import com.ngnis.walle.common.result.PojoResult;
 import com.ngnis.walle.web.GroupBoardQueryDTO;
 
 /**
@@ -50,5 +51,10 @@ public interface GroupBoardFactory {
      * @return 分页结果
      */
     PageResult<GroupBoard> getGroupBoardPage(GroupBoardQueryDTO queryDTO);
+
+    /**
+     * 获取模板个数
+     */
+    PojoResult<Integer> getGroupBoardCnt(Long userId);
 
 }

@@ -6,10 +6,7 @@ import com.alibaba.fastjson.JSON;
 import com.ngnis.walle.common.BeanUtil;
 import com.ngnis.walle.common.Constants;
 import com.ngnis.walle.common.bean.BeanMapper;
-import com.ngnis.walle.common.result.BaseResult;
-import com.ngnis.walle.common.result.Page;
-import com.ngnis.walle.common.result.PageResult;
-import com.ngnis.walle.common.result.ResultCode;
+import com.ngnis.walle.common.result.*;
 import com.ngnis.walle.datasource.db.board.GroupBoardDO;
 import com.ngnis.walle.service.GroupBoardService;
 import com.ngnis.walle.web.GroupBoardQueryDTO;
@@ -117,6 +114,14 @@ public class DataBaseBoardFactory implements GroupBoardFactory {
         page.setItems(items);
         pageResult.setContent(page);
         return pageResult;
+    }
+
+    @Override
+    public PojoResult<Integer> getGroupBoardCnt(Long userId) {
+        PojoResult<Integer> pojoResult = new PojoResult<>();
+        int cnt = boardService.getGroupBoardCnt(userId);
+        pojoResult.setContent(cnt);
+        return pojoResult;
     }
 
     private GroupBoard transfer(GroupBoardDO boardDO) {

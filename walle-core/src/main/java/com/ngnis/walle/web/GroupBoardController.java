@@ -20,6 +20,7 @@ import javax.annotation.Resource;
  */
 @Slf4j
 @RestController
+@RequestMapping(ApiConstant.Urls.GROUP_BOARD)
 public class GroupBoardController {
 
     @Resource
@@ -33,6 +34,15 @@ public class GroupBoardController {
     @GetMapping(ApiConstant.Urls.GET_BOARDS)
     public PageResult<GroupBoard> getGroupBoards(GroupBoardQueryDTO queryDTO) {
         return robot.getGroupBoardPage(queryDTO);
+    }
+
+    /**
+     * 查询Board个数
+     */
+    @CheckToken
+    @GetMapping(ApiConstant.Urls.GET_BOARDS_CNT)
+    public PojoResult<Integer> getGroupBoardCnt() {
+        return robot.getGroupBoardCnt();
     }
 
     /**

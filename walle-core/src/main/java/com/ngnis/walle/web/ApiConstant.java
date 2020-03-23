@@ -11,11 +11,13 @@ public interface ApiConstant {
 
         String SEND_MESSAGE = "/walle/message/send";
 
-        String GET_BOARDS = "/walle/boards";
-        String CREATE_BOARD = "/walle/board/create";
-        String MODIFY_BOARD = "/walle/board/modify";
-        String REMOVE_BOARD = "/walle/board/remove";
-        String FIND_BOARD = "/walle/board/{boardCode:.+}";
+        String GROUP_BOARD = "/walle/groupBoard";
+        String GET_BOARDS_CNT = "/cnt";
+        String GET_BOARDS = "/list";
+        String CREATE_BOARD = "/create";
+        String MODIFY_BOARD = "/modify";
+        String REMOVE_BOARD = "/remove";
+        String FIND_BOARD = "/{boardCode:.+}";
 
         String USER = "/walle/user";
         String USER_REGISTER = "/register";

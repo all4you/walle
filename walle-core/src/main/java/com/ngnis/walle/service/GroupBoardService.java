@@ -66,6 +66,17 @@ public class GroupBoardService {
         return groupBoardMapper.selectCountByExample(example);
     }
 
+    public int getGroupBoardCnt(Long userId) {
+        if (userId == null) {
+            return 0;
+        }
+        Example example = new Example(GroupBoardDO.class);
+        Example.Criteria criteria = example.createCriteria();
+        criteria.andEqualTo("isDeleted", Constants.NOT_DELETED);
+        criteria.andEqualTo("userId", userId);
+        return groupBoardMapper.selectCountByExample(example);
+    }
+
     public void deleteGroupBoardDO(Long userId, String boardCode) {
         if (userId == null || StrUtil.isBlank(boardCode)) {
             return;

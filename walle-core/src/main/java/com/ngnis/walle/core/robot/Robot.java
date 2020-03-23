@@ -55,6 +55,11 @@ public interface Robot {
     PojoResult<GroupBoard> findGroupBoard(String boardCode);
 
     /**
+     * 获取群消息模板个数
+     */
+    PojoResult<Integer> getGroupBoardCnt();
+
+    /**
      * 发送群消息
      *
      * @param dto 发送消息对象
