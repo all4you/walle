@@ -10,7 +10,7 @@
 
 ## **创建账号**
 
-项目运行起来之后，打开 http://localhost:9528
+项目运行起来之后，打开 http://localhost:7001
 
 系统会进入登录页面，如下图所示：
 
@@ -81,13 +81,13 @@
 
 ![send_msg_success_2](./md/readme/send_msg_success_2.jpg)
 
-如果我们携带的数据只有一个 color 字段时，那将会收到这样的消息：
+如果我们携带的数据只有一个 level 字段时，那将会收到这样的消息：
 
 ![send_msg_success_3](./md/readme/send_msg_success_3.jpg)
 
 消息中来源和时间的值都是空的，而位置的值是 \${location} 这个字符串，这是根据模板中设置的变量有没有加感叹号确定的。
 
-如果加了感叹号：\$!{reportType} 当该变量的值为空时，渲染的结果会是空字符串，否则会将该变量直接展示出来。
+如果加了感叹号：\$!{deviceType} 当该变量的值为空时，渲染的结果会是空字符串，否则会将该变量直接展示出来。
 
 ### 多个接收目标
 
@@ -99,7 +99,7 @@
 
 每个接收目标中可以设置一个条件表达式，发送之前会计算条件表达式的值，结果为 true 时才会发送消息。
 
-比如设置如下两个接收目标，条件表达式设置为 [color=='red']，那么只有当携带的数据中有 color 变量，并且值等于 red 时，才会执行消息发送。
+比如设置如下两个接收目标，条件表达式设置为 [level=='high']，那么只有当携带的数据中有 level 变量，并且值等于 high 时，才会执行消息发送。
 
 PS：条件表达式的计算基于[aviator](https://github.com/killme2008/aviator)
 
@@ -113,4 +113,47 @@ PS：条件表达式的计算基于[aviator](https://github.com/killme2008/aviat
 - 将表达式作为开关使用，比如设置表达式为：[false] 或 [1==2] 这样的值，就相当于不向该接收目标发送消息
 
 
+
+
+
+## 接口调用
+
+页面是进行模板管理的，最终发送消息还是要通过接口来操作的。
+
+只需要两步即可通过接口发送消息：
+
+1.引入 walle-api 模块：
+
+```xml
+<dependency>
+    <groupId>com.alibaba.walle</groupId>
+    <artifactId>walle-api</artifactId>
+    <version>0.0.1</version>
+</dependency>
+```
+
+2.创建 WalleClient 并发送消息：
+
+```java
+WalleConfig config = WalleConfig.builder()
+        .endPoint("http://127.0.0.1:7001")
+        .accessKey("m74hscNSZPVWo3tK")
+        .secretKey("QsfigP8ibVhgFv5QmcPHkwsV")
+        .build();
+// 创建 WalleClient
+WalleClient walleClient = new WalleHttpClient(config);
+// 设置请求参数
+GroupMessageDTO messageDTO = new GroupMessageDTO();
+// 模板编号
+messageDTO.setBoardCode("device_offline");
+// 携带的数据
+JSONObject data = new JSONObject();
+data.put("level", "high");
+messageDTO.setData(data.toJSONString());
+// 发送请求
+BaseResult result = walleClient.sendGroupMessage(messageDTO);
+System.out.println(result);
+```
+
+其中 **accessKey** 和 **secretKey** 在【个人中心】-【安全设置】中查看。
 
