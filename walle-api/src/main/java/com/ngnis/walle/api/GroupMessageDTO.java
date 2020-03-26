@@ -1,5 +1,6 @@
 package com.ngnis.walle.api;
 
+import com.alibaba.fastjson.JSONObject;
 import lombok.Data;
 
 /**
@@ -10,6 +11,6 @@ public class GroupMessageDTO {
 
     private String boardCode;
 
-    private String data;
+    private JSONObject data;
 
 }

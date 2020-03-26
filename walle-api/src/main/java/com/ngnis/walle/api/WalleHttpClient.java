@@ -43,8 +43,8 @@ public class WalleHttpClient implements WalleClient {
         String sign = SignatureUtil.sign(timestamp, secretKey);
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("boardCode", dto.getBoardCode());
-        if (StrUtil.isNotBlank(dto.getData())) {
-            jsonObject.put("data", dto.getData());
+        if (dto.getData() != null) {
+            jsonObject.put("data", dto.getData().toJSONString());
         }
         String body = jsonObject.toJSONString();
         String url = config.getEndPoint() + "/walle/api/groupMsg/send";

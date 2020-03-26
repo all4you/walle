@@ -25,7 +25,7 @@ public class SendMessageTest {
         // 携带的数据
         JSONObject data = new JSONObject();
         data.put("level", "high");
-        messageDTO.setData(data.toJSONString());
+        messageDTO.setData(data);
         // 发送请求
         BaseResult result = walleClient.sendGroupMessage(messageDTO);
         System.out.println(result);
