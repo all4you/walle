@@ -3,7 +3,7 @@ package com.ngnis.walle.core.auth;
 import cn.hutool.core.text.StrFormatter;
 import cn.hutool.core.util.StrUtil;
 import com.alibaba.fastjson.JSON;
-import com.ngnis.walle.common.GenericLogUtil;
+import com.ngnis.walle.common.log.GenericLogUtil;
 import com.ngnis.walle.common.result.BaseResult;
 import com.ngnis.walle.common.result.ResultCode;
 import lombok.extern.slf4j.Slf4j;

@@ -5,15 +5,13 @@ import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.text.StrFormatter;
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.StrUtil;
-import com.ngnis.walle.common.GenericLogUtil;
+import com.ngnis.walle.common.log.GenericLogUtil;
 import com.ngnis.walle.core.user.UserDTO;
 import com.ngnis.walle.datasource.db.user.UserDO;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTDecodeException;
 import com.auth0.jwt.interfaces.Claim;
-import com.ngnis.walle.common.GenericLogUtil;
-import com.ngnis.walle.core.user.UserDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 

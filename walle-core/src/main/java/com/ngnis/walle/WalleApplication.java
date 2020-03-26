@@ -4,6 +4,7 @@ import com.ngnis.walle.config.WalleAutoConfiguration;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import tk.mybatis.spring.annotation.MapperScan;
 
 /**
@@ -16,6 +17,7 @@ import tk.mybatis.spring.annotation.MapperScan;
  */
 @MapperScan("com.ngnis.walle.datasource.db")
 @ComponentScan(basePackages = "com.ngnis.walle")
+@EnableAspectJAutoProxy
 @SpringBootApplication
 public class WalleApplication {
 

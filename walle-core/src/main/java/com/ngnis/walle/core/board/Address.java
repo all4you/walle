@@ -4,7 +4,7 @@ import cn.hutool.core.text.StrFormatter;
 import cn.hutool.core.util.BooleanUtil;
 import cn.hutool.core.util.StrUtil;
 import com.googlecode.aviator.AviatorEvaluator;
-import com.ngnis.walle.common.GenericLogUtil;
+import com.ngnis.walle.common.log.GenericLogUtil;
 import com.ngnis.walle.common.bean.BeanValidator;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

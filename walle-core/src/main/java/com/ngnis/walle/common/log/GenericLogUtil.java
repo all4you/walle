@@ -1,6 +1,7 @@
-package com.ngnis.walle.common;
+package com.ngnis.walle.common.log;
 
 import cn.hutool.core.text.StrFormatter;
+import com.ngnis.walle.common.log.LogUtil;
 import org.slf4j.Logger;
 
 /**

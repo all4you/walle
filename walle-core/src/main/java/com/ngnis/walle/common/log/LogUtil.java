@@ -1,4 +1,4 @@
-package com.ngnis.walle.common;
+package com.ngnis.walle.common.log;
 
 import cn.hutool.core.text.StrFormatter;
 import lombok.extern.slf4j.Slf4j;

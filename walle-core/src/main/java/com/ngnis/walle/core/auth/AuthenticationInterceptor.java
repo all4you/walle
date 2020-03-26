@@ -6,7 +6,7 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTVerificationException;
-import com.ngnis.walle.common.GenericLogUtil;
+import com.ngnis.walle.common.log.GenericLogUtil;
 import com.ngnis.walle.common.HttpContext;
 import com.ngnis.walle.common.result.ResultCode;
 import com.ngnis.walle.core.SignatureUtil;

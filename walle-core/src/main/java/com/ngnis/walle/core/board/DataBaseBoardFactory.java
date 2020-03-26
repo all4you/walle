@@ -6,6 +6,7 @@ import com.alibaba.fastjson.JSON;
 import com.ngnis.walle.common.BeanUtil;
 import com.ngnis.walle.common.Constants;
 import com.ngnis.walle.common.bean.BeanMapper;
+import com.ngnis.walle.common.log.PrintLog;
 import com.ngnis.walle.common.result.*;
 import com.ngnis.walle.datasource.db.board.GroupBoardDO;
 import com.ngnis.walle.service.GroupBoardService;
@@ -35,6 +36,7 @@ public class DataBaseBoardFactory implements GroupBoardFactory {
     /**
      * FIXME: 如果分布式部署，需要加分布式锁
      */
+    @PrintLog
     @Override
     public synchronized BaseResult createGroupBoard(GroupBoard board) {
         BaseResult baseResult = spanner.check(board);
@@ -53,6 +55,7 @@ public class DataBaseBoardFactory implements GroupBoardFactory {
         return baseResult;
     }
 
+    @PrintLog
     @Override
     public synchronized BaseResult modifyGroupBoard(GroupBoard board) {
         BaseResult baseResult = spanner.check(board);
@@ -72,6 +75,7 @@ public class DataBaseBoardFactory implements GroupBoardFactory {
         return baseResult;
     }
 
+    @PrintLog
     @Override
     public synchronized BaseResult removeGroupBoard(GroupBoard board) {
         BaseResult baseResult = new BaseResult();
@@ -86,12 +90,14 @@ public class DataBaseBoardFactory implements GroupBoardFactory {
         return baseResult;
     }
 
+    @PrintLog
     @Override
     public GroupBoard findGroupBoard(GroupBoard board) {
         GroupBoardDO boardDO = boardService.getGroupBoardDO(board.getUserId(), board.getBoardCode());
         return transfer(boardDO);
     }
 
+    @PrintLog
     @Override
     public PageResult<GroupBoard> getGroupBoardPage(GroupBoardQueryDTO queryDTO) {
         // 利用PageHelper进行分页查询，得到的结果是一个Page对象
@@ -116,10 +122,11 @@ public class DataBaseBoardFactory implements GroupBoardFactory {
         return pageResult;
     }
 
+    @PrintLog
     @Override
-    public PojoResult<Integer> getGroupBoardCnt(Long userId) {
+    public PojoResult<Integer> getGroupBoardCnt(GroupBoardQueryDTO queryDTO) {
         PojoResult<Integer> pojoResult = new PojoResult<>();
-        int cnt = boardService.getGroupBoardCnt(userId);
+        int cnt = boardService.getGroupBoardCnt(queryDTO.getUserId(), null);
         pojoResult.setContent(cnt);
         return pojoResult;
     }

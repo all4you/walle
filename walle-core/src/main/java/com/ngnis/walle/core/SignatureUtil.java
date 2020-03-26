@@ -7,8 +7,7 @@ import cn.hutool.core.util.CharsetUtil;
 import cn.hutool.crypto.SecureUtil;
 import cn.hutool.crypto.digest.HMac;
 import cn.hutool.crypto.digest.HmacAlgorithm;
-import com.ngnis.walle.common.GenericLogUtil;
-import com.ngnis.walle.common.GenericLogUtil;
+import com.ngnis.walle.common.log.GenericLogUtil;
 import lombok.extern.slf4j.Slf4j;
 
 import java.net.URLEncoder;
