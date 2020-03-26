@@ -41,8 +41,8 @@ public class GroupBoardController {
      */
     @CheckToken
     @GetMapping(ApiConstant.Urls.GET_BOARDS_CNT)
-    public PojoResult<Integer> getGroupBoardCnt() {
-        return robot.getGroupBoardCnt();
+    public PojoResult<Integer> getGroupBoardCnt(GroupBoardQueryDTO queryDTO) {
+        return robot.getGroupBoardCnt(queryDTO);
     }
 
     /**

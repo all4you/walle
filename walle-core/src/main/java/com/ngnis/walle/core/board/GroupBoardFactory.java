@@ -55,6 +55,6 @@ public interface GroupBoardFactory {
     /**
      * 获取模板个数
      */
-    PojoResult<Integer> getGroupBoardCnt(Long userId);
+    PojoResult<Integer> getGroupBoardCnt(GroupBoardQueryDTO queryDTO);
 
 }

@@ -115,7 +115,7 @@ public class MemoryBoardFactory implements GroupBoardFactory {
     }
 
     @Override
-    public PojoResult<Integer> getGroupBoardCnt(Long userId) {
+    public PojoResult<Integer> getGroupBoardCnt(GroupBoardQueryDTO queryDTO) {
         int cnt = boardMap.values().size();
         PojoResult<Integer> pojoResult = new PojoResult<>();
         pojoResult.setContent(cnt);

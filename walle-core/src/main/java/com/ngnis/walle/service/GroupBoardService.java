@@ -55,18 +55,6 @@ public class GroupBoardService {
     }
 
     public int getGroupBoardCnt(Long userId, String boardCode) {
-        if (userId == null || StrUtil.isBlank(boardCode)) {
-            return 0;
-        }
-        Example example = new Example(GroupBoardDO.class);
-        Example.Criteria criteria = example.createCriteria();
-        criteria.andEqualTo("isDeleted", Constants.NOT_DELETED);
-        criteria.andEqualTo("userId", userId);
-        criteria.andEqualTo("boardCode", boardCode);
-        return groupBoardMapper.selectCountByExample(example);
-    }
-
-    public int getGroupBoardCnt(Long userId) {
         if (userId == null) {
             return 0;
         }
@@ -74,6 +62,9 @@ public class GroupBoardService {
         Example.Criteria criteria = example.createCriteria();
         criteria.andEqualTo("isDeleted", Constants.NOT_DELETED);
         criteria.andEqualTo("userId", userId);
+        if (StrUtil.isNotBlank(boardCode)) {
+            criteria.andEqualTo("boardCode", boardCode);
+        }
         return groupBoardMapper.selectCountByExample(example);
     }
 

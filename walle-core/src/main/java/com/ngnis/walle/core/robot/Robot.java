@@ -57,7 +57,7 @@ public interface Robot {
     /**
      * 获取群消息模板个数
      */
-    PojoResult<Integer> getGroupBoardCnt();
+    PojoResult<Integer> getGroupBoardCnt(GroupBoardQueryDTO queryDTO);
 
     /**
      * 发送群消息

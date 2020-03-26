@@ -4,8 +4,9 @@ import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.text.StrFormatter;
 import cn.hutool.core.util.StrUtil;
 import com.alibaba.fastjson.JSON;
-import com.ngnis.walle.common.GenericLogUtil;
+import com.ngnis.walle.common.log.GenericLogUtil;
 import com.ngnis.walle.common.HttpContext;
+import com.ngnis.walle.common.bean.BeanMapper;
 import com.ngnis.walle.common.bean.BeanValidator;
 import com.ngnis.walle.common.result.BaseResult;
 import com.ngnis.walle.common.result.PageResult;
@@ -47,64 +48,36 @@ public class WalleRobot implements Robot {
 
     private final Sender sender;
 
-    /**
-     * 设置当前用户id
-     */
-    private void fillUserId(GroupBoard board) {
-        if (board == null) {
-            board = new GroupBoard();
-        }
-        board.setUserId(HttpContext.currentContext().getUserId());
-    }
-
-    private void fillUserId(GroupBoardQueryDTO queryDTO) {
-        if (queryDTO == null) {
-            queryDTO = new GroupBoardQueryDTO();
-        }
-        queryDTO.setUserId(HttpContext.currentContext().getUserId());
-    }
-
-    private GroupBoard newBoard(String boardCode) {
-        Long userId = HttpContext.currentContext().getUserId();
-        return GroupBoard.builder()
-                .userId(userId)
-                .boardCode(boardCode)
-                .build();
-    }
 
     @Override
     public BaseResult createGroupBoard(GroupBoard board) {
-        fillUserId(board);
-        log.info("createGroupBoard with board={}", board);
-        return boardFactory.createGroupBoard(board);
+        GroupBoard newBoard = newBoard(board);
+        return boardFactory.createGroupBoard(newBoard);
     }
 
     @Override
     public BaseResult modifyGroupBoard(GroupBoard board) {
-        fillUserId(board);
-        log.info("modifyGroupBoard with board={}", board);
-        return boardFactory.modifyGroupBoard(board);
+        GroupBoard newBoard = newBoard(board);
+        return boardFactory.modifyGroupBoard(newBoard);
     }
 
     @Override
     public BaseResult removeGroupBoard(String boardCode) {
         GroupBoard board = newBoard(boardCode);
-        log.info("removeGroupBoard with board={}", board);
         return boardFactory.removeGroupBoard(board);
     }
 
     @Override
     public PageResult<GroupBoard> getGroupBoardPage(GroupBoardQueryDTO queryDTO) {
-        fillUserId(queryDTO);
-        return boardFactory.getGroupBoardPage(queryDTO);
+        GroupBoardQueryDTO newQuery = newBoardQuery(queryDTO);
+        return boardFactory.getGroupBoardPage(newQuery);
     }
 
     @Override
     public PojoResult<GroupBoard> findGroupBoard(String boardCode) {
-        GroupBoard query = newBoard(boardCode);
-        log.info("findGroupBoard with query={}", query);
+        GroupBoard newBoard = newBoard(boardCode);
         PojoResult<GroupBoard> pojoResult = new PojoResult<>();
-        GroupBoard board = boardFactory.findGroupBoard(query);
+        GroupBoard board = boardFactory.findGroupBoard(newBoard);
         if (board == null) {
             pojoResult.setErrorMessage(ResultCode.RESOURCE_NOT_FOUND.getCode(), "模板不存在");
         } else {
@@ -114,8 +87,9 @@ public class WalleRobot implements Robot {
     }
 
     @Override
-    public PojoResult<Integer> getGroupBoardCnt() {
-        return boardFactory.getGroupBoardCnt(HttpContext.currentContext().getUserId());
+    public PojoResult<Integer> getGroupBoardCnt(GroupBoardQueryDTO queryDTO) {
+        GroupBoardQueryDTO newQuery = newBoardQuery(queryDTO);
+        return boardFactory.getGroupBoardCnt(newQuery);
     }
 
     @Override
@@ -161,4 +135,25 @@ public class WalleRobot implements Robot {
         GenericLogUtil.invokeSuccess(log, "sendGroupMessage", StrFormatter.format("dto={}", JSON.toJSONString(dto)), StrFormatter.format("baseResult={}", JSON.toJSONString(baseResult)));
         return baseResult;
     }
+
+    private GroupBoard newBoard(String boardCode) {
+        return newBoard(
+                GroupBoard.builder()
+                        .boardCode(boardCode)
+                        .build()
+        );
+    }
+
+    private GroupBoard newBoard(GroupBoard board) {
+        GroupBoard newBoard = BeanMapper.map(board, GroupBoard.class);
+        newBoard.setUserId(HttpContext.currentContext().getUserId());
+        return newBoard;
+    }
+
+    private GroupBoardQueryDTO newBoardQuery(GroupBoardQueryDTO queryDTO) {
+        GroupBoardQueryDTO newBoard = BeanMapper.map(queryDTO, GroupBoardQueryDTO.class);
+        newBoard.setUserId(HttpContext.currentContext().getUserId());
+        return newBoard;
+    }
+
 }
