@@ -1,4 +1,4 @@
-package com.ngnis.walle.web;
+package com.ngnis.walle.center.board;
 
 import com.ngnis.walle.common.page.PageDTO;
 import com.ngnis.walle.core.message.MessageType;

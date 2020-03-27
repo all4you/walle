@@ -6,7 +6,7 @@ import cn.hutool.core.text.StrFormatter;
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.StrUtil;
 import com.ngnis.walle.common.log.GenericLogUtil;
-import com.ngnis.walle.core.user.UserDTO;
+import com.ngnis.walle.center.account.UserDTO;
 import com.ngnis.walle.datasource.db.user.UserDO;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;

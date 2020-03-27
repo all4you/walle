@@ -1,4 +1,4 @@
-package com.ngnis.walle.core.board;
+package com.ngnis.walle.center.board;
 
 import com.ngnis.walle.core.message.MessageType;
 import lombok.AllArgsConstructor;
@@ -21,7 +21,7 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class GroupBoard {
+public class GroupBoardDTO {
 
     private String boardId;
 
@@ -79,7 +79,7 @@ public class GroupBoard {
      */
     @NotEmpty(message = "要发送的地址不能为空")
     @Valid
-    private List<Address> addresses;
+    private List<AddressDTO> addresses;
 
 
 }

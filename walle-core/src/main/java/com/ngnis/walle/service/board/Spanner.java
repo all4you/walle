@@ -1,8 +1,9 @@
-package com.ngnis.walle.core.board;
+package com.ngnis.walle.service.board;
 
 import cn.hutool.core.lang.Assert;
 import cn.hutool.core.util.ReUtil;
 import cn.hutool.core.util.StrUtil;
+import com.ngnis.walle.center.board.GroupBoardDTO;
 import com.ngnis.walle.common.VelocityUtil;
 import com.ngnis.walle.common.bean.BeanValidator;
 import com.ngnis.walle.common.result.BaseResult;
@@ -18,10 +19,9 @@ import java.util.Map;
  * @author houyi
  */
 @Component
-public class DefaultSpanner implements Spanner {
+public class Spanner {
 
-    @Override
-    public BaseResult check(GroupBoard board) {
+    public BaseResult check(GroupBoardDTO board) {
         Assert.notNull(board, "模板不能为空");
         BaseResult baseResult = BeanValidator.validate(board);
         if (!baseResult.isSuccess()) {
@@ -57,8 +57,7 @@ public class DefaultSpanner implements Spanner {
         return baseResult;
     }
 
-    @Override
-    public Message make(GroupBoard board, Map<String, Object> data) {
+    public Message make(GroupBoardDTO board, Map<String, Object> data) {
         Assert.notNull(board, "模板不能为空");
         MessageType messageType = board.getMessageType();
         String boardCode = board.getBoardCode();
@@ -112,7 +111,7 @@ public class DefaultSpanner implements Spanner {
         return message;
     }
 
-    private static List<String> extractAtMobiles(String originContent) {
+    private List<String> extractAtMobiles(String originContent) {
         return ReUtil.findAll("@(\\d{11})", originContent, 1);
     }
 

@@ -1,13 +1,13 @@
 package com.ngnis.walle.web;
 
+import com.ngnis.walle.center.board.GroupBoardCenter;
+import com.ngnis.walle.center.board.GroupBoardDTO;
+import com.ngnis.walle.center.board.GroupBoardQueryDTO;
 import com.ngnis.walle.common.result.BaseResult;
 import com.ngnis.walle.common.result.PageResult;
 import com.ngnis.walle.common.result.PojoResult;
 import com.ngnis.walle.core.auth.CheckToken;
-import com.ngnis.walle.core.board.GroupBoard;
-import com.ngnis.walle.core.robot.Robot;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -21,19 +21,19 @@ import javax.annotation.Resource;
 @Slf4j
 @RestController
 @RequestMapping(ApiConstant.Urls.GROUP_BOARD)
-public class GroupBoardController {
+public class GroupBoardController extends BaseController {
 
     @Resource
-    @Qualifier("walleRobot")
-    private Robot robot;
+    private GroupBoardCenter groupBoardCenter;
 
     /**
      * 查询Board列表
      */
     @CheckToken
     @GetMapping(ApiConstant.Urls.GET_BOARDS)
-    public PageResult<GroupBoard> getGroupBoards(GroupBoardQueryDTO queryDTO) {
-        return robot.getGroupBoardPage(queryDTO);
+    public PageResult<GroupBoardDTO> getGroupBoards(GroupBoardQueryDTO queryDTO) {
+        GroupBoardQueryDTO newQueryDTO = newBoardQueryDTO(queryDTO);
+        return groupBoardCenter.getGroupBoardPage(newQueryDTO);
     }
 
     /**
@@ -42,7 +42,8 @@ public class GroupBoardController {
     @CheckToken
     @GetMapping(ApiConstant.Urls.GET_BOARDS_CNT)
     public PojoResult<Integer> getGroupBoardCnt(GroupBoardQueryDTO queryDTO) {
-        return robot.getGroupBoardCnt(queryDTO);
+        GroupBoardQueryDTO newQueryDTO = newBoardQueryDTO(queryDTO);
+        return groupBoardCenter.getGroupBoardCnt(newQueryDTO);
     }
 
     /**
@@ -51,8 +52,9 @@ public class GroupBoardController {
      */
     @CheckToken
     @PostMapping(ApiConstant.Urls.CREATE_BOARD)
-    public BaseResult createGroupBoard(@RequestBody GroupBoard board) {
-        return robot.createGroupBoard(board);
+    public BaseResult createGroupBoard(@RequestBody GroupBoardDTO boardDTO) {
+        GroupBoardDTO newBoardDTO = newBoardDTO(boardDTO);
+        return groupBoardCenter.createGroupBoard(newBoardDTO);
     }
 
     /**
@@ -60,8 +62,9 @@ public class GroupBoardController {
      */
     @CheckToken
     @PostMapping(ApiConstant.Urls.MODIFY_BOARD)
-    public BaseResult modifyGroupBoard(@RequestBody GroupBoard board) {
-        return robot.modifyGroupBoard(board);
+    public BaseResult modifyGroupBoard(@RequestBody GroupBoardDTO boardDTO) {
+        GroupBoardDTO newBoardDTO = newBoardDTO(boardDTO);
+        return groupBoardCenter.modifyGroupBoard(newBoardDTO);
     }
 
     /**
@@ -70,7 +73,8 @@ public class GroupBoardController {
     @CheckToken
     @PostMapping(ApiConstant.Urls.REMOVE_BOARD)
     public BaseResult removeGroupBoard(@RequestParam String boardCode) {
-        return robot.removeGroupBoard(boardCode);
+        GroupBoardDTO boardDTO = newBoardDTO(boardCode);
+        return groupBoardCenter.removeGroupBoard(boardDTO);
     }
 
     /**
@@ -78,8 +82,9 @@ public class GroupBoardController {
      */
     @CheckToken
     @GetMapping(ApiConstant.Urls.FIND_BOARD)
-    public PojoResult<GroupBoard> findGroupBoard(@PathVariable String boardCode) {
-        return robot.findGroupBoard(boardCode);
+    public PojoResult<GroupBoardDTO> findGroupBoard(@PathVariable String boardCode) {
+        GroupBoardDTO boardDTO = newBoardDTO(boardCode);
+        return groupBoardCenter.findGroupBoard(boardDTO);
     }
 
 }

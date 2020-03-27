@@ -12,10 +12,8 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 public class WalleProperties {
 
     /**
-     * 使用哪种BoardFactory实现类
-     * memory：MemoryBoardFactory
-     * db：DataSourceBoardFactory
+     * 项目名称
      */
-    private String boardFactory;
+    private String projectName;
 
 }

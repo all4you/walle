@@ -1,45 +1,44 @@
-package com.ngnis.walle.core.user;
+package com.ngnis.walle.service.account;
 
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.lang.Assert;
 import cn.hutool.core.text.StrFormatter;
+import com.ngnis.walle.center.account.*;
+import com.ngnis.walle.common.BeanUtil;
 import com.ngnis.walle.common.HttpContext;
 import com.ngnis.walle.common.bean.BeanValidator;
+import com.ngnis.walle.common.bean.Validate;
 import com.ngnis.walle.common.result.BaseResult;
 import com.ngnis.walle.common.result.PojoResult;
 import com.ngnis.walle.common.result.ResultCode;
 import com.ngnis.walle.core.auth.TokenFactory;
 import com.ngnis.walle.datasource.db.user.UserDO;
-import com.ngnis.walle.service.UserService;
-import com.ngnis.walle.web.UpdatePwdDTO;
-import com.ngnis.walle.common.result.BaseResult;
-import com.ngnis.walle.common.result.PojoResult;
-import com.ngnis.walle.common.result.ResultCode;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * 用户门面
+ * 默认账号中心
  *
  * @author houyi
  */
 @Slf4j
-@Service
-@RequiredArgsConstructor(onConstructor = @__(@Autowired))
-public class UserFacade {
+public class DefaultAccountCenter implements AccountCenter {
 
-    private final UserService userService;
+    private AccountService accountService;
 
-    private final TokenFactory tokenFactory;
+    private TokenFactory tokenFactory;
+
+    public DefaultAccountCenter() {
+        this.accountService = BeanUtil.getBean(AccountService.class);
+        this.tokenFactory = BeanUtil.getBean(TokenFactory.class);
+    }
 
     /**
      * 用户注册
      */
-    public synchronized BaseResult register(UserRegisterDTO registerDTO) {
+    @Override
+    public synchronized BaseResult register(RegisterDTO registerDTO) {
         Assert.notNull(registerDTO, "用户信息不能为空");
         BaseResult baseResult = BeanValidator.validate(registerDTO);
         if (!baseResult.isSuccess()) {
@@ -49,26 +48,27 @@ public class UserFacade {
         String account = registerDTO.getAccount();
         String password = registerDTO.getPassword();
         // 1.检查账号是否存在
-        int cnt = userService.getUserCnt(account);
+        int cnt = accountService.getUserCnt(account);
         if (cnt > 0) {
             baseResult.setErrorMessage(ResultCode.RECORD_ALREADY_EXISTS.getCode(), StrFormatter.format("账号({})已存在", account));
             return baseResult;
         }
         // 2.创建用户账号
-        String encryptPwd = userService.encryptPwd(password);
-        String accessKey = userService.createAccessKey(account);
-        String secretKey = userService.createSecretKey(account);
+        String encryptPwd = accountService.encryptPwd(password);
+        String accessKey = accountService.createAccessKey(account);
+        String secretKey = accountService.createSecretKey(account);
         UserDO userDO = UserDO.builder()
                 .account(account)
                 .password(encryptPwd)
                 .accessKey(accessKey)
                 .secretKey(secretKey)
                 .build();
-        userService.saveUser(userDO);
+        accountService.saveUser(userDO);
         return baseResult;
     }
 
-    public synchronized PojoResult<UserDTO> login(HttpServletResponse response, UserLoginDTO loginDTO) {
+    @Override
+    public synchronized PojoResult<UserDTO> login(HttpServletResponse response, LoginDTO loginDTO) {
         Assert.notNull(loginDTO, "用户信息不能为空");
         BaseResult baseResult = BeanValidator.validate(loginDTO);
         PojoResult<UserDTO> pojoResult = new PojoResult<>();
@@ -79,13 +79,13 @@ public class UserFacade {
         String account = loginDTO.getAccount();
         String password = loginDTO.getPassword();
         // 1.检查用户是否存在
-        UserDO userDO = userService.getUserByAccount(account);
+        UserDO userDO = accountService.getUserByAccount(account);
         if (userDO == null) {
             pojoResult.setErrorMessage(ResultCode.RESOURCE_NOT_FOUND.getCode(), "账号不存在");
             return pojoResult;
         }
         // 2.校验密码是否正确
-        String encryptPwd = userService.encryptPwd(password);
+        String encryptPwd = accountService.encryptPwd(password);
         if (!encryptPwd.equalsIgnoreCase(userDO.getPassword())) {
             pojoResult.setErrorMessage(ResultCode.RESOURCE_NOT_FOUND.getCode(), "账号或密码不正确");
             return pojoResult;
@@ -112,50 +112,91 @@ public class UserFacade {
         return pojoResult;
     }
 
+    @Override
+    public BaseResult logout(LogoutDTO logoutDTO) {
+        // 将当前登录的token置为失效
+        String tokenId = tokenFactory.getTokenId(HttpContext.currentContext().getToken());
+        tokenFactory.removeTokenByTokenId(tokenId);
+        return new BaseResult();
+    }
+
+    @Override
     public synchronized BaseResult updatePwd(UpdatePwdDTO updatePwdDTO) {
         BaseResult baseResult = BeanValidator.validate(updatePwdDTO);
         if (!baseResult.isSuccess()) {
             return baseResult;
         }
-        HttpContext httpContext = HttpContext.currentContext();
-        Long userId = httpContext.getUserId();
+        Long userId = updatePwdDTO.getUserId();
         // 1.检查用户是否存在
-        UserDO userDO = userService.getUserById(userId);
+        UserDO userDO = accountService.getUserById(userId);
         if (userDO == null) {
             baseResult.setErrorMessage(ResultCode.RESOURCE_NOT_FOUND.getCode(), "账号不存在");
             return baseResult;
         }
         // 2.校验原密码是否正确
-        String encryptPwd = userService.encryptPwd(updatePwdDTO.getPassword());
+        String encryptPwd = accountService.encryptPwd(updatePwdDTO.getPassword());
         if (!encryptPwd.equalsIgnoreCase(userDO.getPassword())) {
             baseResult.setErrorMessage(ResultCode.RESOURCE_NOT_FOUND.getCode(), "原密码不正确");
             return baseResult;
         }
         // 3.更新新密码
-        String newEncryptPwd = userService.encryptPwd(updatePwdDTO.getNewPassword());
+        String newEncryptPwd = accountService.encryptPwd(updatePwdDTO.getNewPassword());
         UserDO updatedUserDO = UserDO.builder()
                 .id(userId)
                 .password(newEncryptPwd)
                 .build();
-        userService.updateUser(updatedUserDO);
+        accountService.updateUser(updatedUserDO);
         // 4.将当前用户下所有的token都删除
         tokenFactory.removeTokenByUserId(userId);
         return baseResult;
     }
 
-    public PojoResult<UserDTO> getUserInfo() {
+    @Override
+    public PojoResult<UserDTO> getUserInfo(QueryDTO queryDTO) {
+        Assert.notNull(queryDTO, "用户信息不能为空");
+        BaseResult baseResult = BeanValidator.validate(queryDTO, Validate.QueryAccount.class);
         PojoResult<UserDTO> pojoResult = new PojoResult<>();
-        HttpContext httpContext = HttpContext.currentContext();
-        Long userId = httpContext.getUserId();
+        if (!baseResult.isSuccess()) {
+            pojoResult.setErrorMessage(baseResult.getErrorCode(), baseResult.getErrorMsg());
+            return pojoResult;
+        }
         // 1.检查用户是否存在
-        UserDO userDO = userService.getUserById(userId);
+        UserDO userDO = accountService.getUserById(queryDTO.getUserId());
         if (userDO == null) {
             pojoResult.setErrorMessage(ResultCode.RESOURCE_NOT_FOUND.getCode(), "账号不存在");
             return pojoResult;
         }
         // 2.创建返回对象
-        UserDTO userDTO = buildUserDTO(userDO, httpContext.getToken());
+        UserDTO userDTO = buildUserDTO(userDO, HttpContext.currentContext().getToken());
         pojoResult.setContent(userDTO);
+        return pojoResult;
+    }
+
+
+    @Override
+    public PojoResult<String> getSecurityKey(QueryDTO queryDTO) {
+        Assert.notNull(queryDTO, "用户信息不能为空");
+        BaseResult baseResult = BeanValidator.validate(queryDTO, Validate.QuerySK.class);
+        PojoResult<String> pojoResult = new PojoResult<>();
+        if (!baseResult.isSuccess()) {
+            pojoResult.setErrorMessage(baseResult.getErrorCode(), baseResult.getErrorMsg());
+            return pojoResult;
+        }
+        // 1.检查用户是否存在
+        UserDO userDO = accountService.getUserById(queryDTO.getUserId());
+        if (userDO == null) {
+            pojoResult.setErrorMessage(ResultCode.RESOURCE_NOT_FOUND.getCode(), "账号不存在");
+            return pojoResult;
+        }
+        // 2.校验密码是否正确
+        String encryptPwd = accountService.encryptPwd(queryDTO.getPassword());
+        if (!encryptPwd.equals(userDO.getPassword())) {
+            pojoResult.setErrorMessage(ResultCode.RESOURCE_NOT_FOUND.getCode(), "密码不正确");
+            return pojoResult;
+        }
+        // 1.返回SecurityKey
+        String securityKey = userDO.getSecretKey();
+        pojoResult.setContent(securityKey);
         return pojoResult;
     }
 
@@ -166,36 +207,6 @@ public class UserFacade {
                 .accessKey(userDO.getAccessKey())
                 .lastLogin(tokenFactory.getLastLogin(token))
                 .build();
-    }
-
-    public PojoResult<String> getSecurityKey(String password) {
-        PojoResult<String> pojoResult = new PojoResult<>();
-        HttpContext httpContext = HttpContext.currentContext();
-        Long userId = httpContext.getUserId();
-        // 1.检查用户是否存在
-        UserDO userDO = userService.getUserById(userId);
-        if (userDO == null) {
-            pojoResult.setErrorMessage(ResultCode.RESOURCE_NOT_FOUND.getCode(), "账号不存在");
-            return pojoResult;
-        }
-        // 2.校验密码是否正确
-        String encryptPwd = userService.encryptPwd(password);
-        if (!encryptPwd.equalsIgnoreCase(userDO.getPassword())) {
-            pojoResult.setErrorMessage(ResultCode.RESOURCE_NOT_FOUND.getCode(), "密码不正确");
-            return pojoResult;
-        }
-        // 1.返回SecurityKey
-        String securityKey = userDO.getSecretKey();
-        pojoResult.setContent(securityKey);
-        return pojoResult;
-    }
-
-    public BaseResult logout() {
-        // 将当前登录的token置为失效
-        String token = HttpContext.currentContext().getToken();
-        String tokenId = tokenFactory.getTokenId(token);
-        tokenFactory.removeTokenByTokenId(tokenId);
-        return new BaseResult();
     }
 
 }

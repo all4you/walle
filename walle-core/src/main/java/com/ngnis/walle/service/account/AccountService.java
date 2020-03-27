@@ -1,4 +1,4 @@
-package com.ngnis.walle.service;
+package com.ngnis.walle.service.account;
 
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.IdUtil;
@@ -6,9 +6,6 @@ import cn.hutool.core.util.StrUtil;
 import cn.hutool.crypto.SecureUtil;
 import com.ngnis.walle.common.Constants;
 import com.ngnis.walle.core.SignatureUtil;
-import com.ngnis.walle.datasource.db.user.UserDO;
-import com.ngnis.walle.datasource.db.user.UserMapper;
-import com.ngnis.walle.common.Constants;
 import com.ngnis.walle.datasource.db.user.UserDO;
 import com.ngnis.walle.datasource.db.user.UserMapper;
 import lombok.RequiredArgsConstructor;
@@ -23,7 +20,7 @@ import tk.mybatis.mapper.entity.Example;
 @Slf4j
 @Service
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
-public class UserService {
+public class AccountService {
 
     private final UserMapper userMapper;
 

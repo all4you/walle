@@ -9,7 +9,8 @@ public interface ApiConstant {
     interface Urls {
         String ROOT = "/walle";
 
-        String SEND_MESSAGE = "/walle/message/send";
+        String MESSAGE = "/walle/groupMsg";
+        String MESSAGE_SEND_GROUP_MSG = "/send";
 
         String GROUP_BOARD = "/walle/groupBoard";
         String GET_BOARDS_CNT = "/cnt";
@@ -28,7 +29,7 @@ public interface ApiConstant {
         String USER_LOGOUT = "/logout";
 
         String API = "/walle/api";
-        String SEND_GROUP_MSG = "/groupMsg/send";
+        String API_SEND_GROUP_MSG = "/groupMsg/send";
 
     }
 

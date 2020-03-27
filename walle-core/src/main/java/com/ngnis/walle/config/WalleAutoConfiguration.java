@@ -1,11 +1,7 @@
 package com.ngnis.walle.config;
 
-import com.ngnis.walle.core.board.DataBaseBoardFactory;
-import com.ngnis.walle.core.board.GroupBoardFactory;
-import com.ngnis.walle.core.board.MemoryBoardFactory;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -53,26 +49,6 @@ public class WalleAutoConfiguration {
         requestFactory.setConnectTimeout(5000);
         requestFactory.setReadTimeout(5000);
         return new RestTemplate(requestFactory);
-    }
-
-    /**
-     * 默认创建MemoryBoardFactory
-     */
-    @Bean
-    @ConditionalOnMissingBean(GroupBoardFactory.class)
-    @ConditionalOnProperty(name = "walle.common.board-factory", havingValue = "memory", matchIfMissing = true)
-    public GroupBoardFactory memoryBoardFactory() {
-        return new MemoryBoardFactory();
-    }
-
-    /**
-     * 创建DataBaseBoardFactory
-     */
-    @Bean
-    @ConditionalOnMissingBean(GroupBoardFactory.class)
-    @ConditionalOnProperty(name = "walle.common.board-factory", havingValue = "db")
-    public GroupBoardFactory databaseBoardFactory() {
-        return new DataBaseBoardFactory();
     }
 
 

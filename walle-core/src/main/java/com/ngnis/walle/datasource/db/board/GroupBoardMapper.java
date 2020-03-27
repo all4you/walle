@@ -1,7 +1,7 @@
 package com.ngnis.walle.datasource.db.board;
 
 import com.ngnis.walle.datasource.mybatis.Mapper;
-import com.ngnis.walle.web.GroupBoardQueryDTO;
+import com.ngnis.walle.center.board.GroupBoardQueryDTO;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;

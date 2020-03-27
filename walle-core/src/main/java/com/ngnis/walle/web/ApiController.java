@@ -1,10 +1,10 @@
 package com.ngnis.walle.web;
 
+import com.ngnis.walle.center.board.GroupBoardCenter;
+import com.ngnis.walle.center.board.SendGroupMessageDTO;
 import com.ngnis.walle.common.result.BaseResult;
 import com.ngnis.walle.core.auth.CheckSign;
-import com.ngnis.walle.core.robot.Robot;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,20 +21,20 @@ import javax.annotation.Resource;
 @Slf4j
 @RestController
 @RequestMapping(ApiConstant.Urls.API)
-public class ApiController {
+public class ApiController extends BaseController {
 
     @Resource
-    @Qualifier("walleRobot")
-    private Robot robot;
+    private GroupBoardCenter boardCenter;
 
     /**
      * 发送消息
      * 需要对ak/sk进行校验
      */
     @CheckSign
-    @PostMapping(ApiConstant.Urls.SEND_GROUP_MSG)
-    public BaseResult sendMessage(@RequestBody SendGroupMessageDTO dto) {
-        return robot.sendGroupMessage(dto);
+    @PostMapping(ApiConstant.Urls.API_SEND_GROUP_MSG)
+    public BaseResult sendMessage(@RequestBody SendGroupMessageDTO messageDTO) {
+        SendGroupMessageDTO newMessageDTO = newGroupMessageDTO(messageDTO);
+        return boardCenter.sendGroupMessage(newMessageDTO);
     }
 
 

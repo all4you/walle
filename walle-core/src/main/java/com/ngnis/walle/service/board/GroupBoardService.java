@@ -1,10 +1,10 @@
-package com.ngnis.walle.service;
+package com.ngnis.walle.service.board;
 
 import cn.hutool.core.util.StrUtil;
 import com.ngnis.walle.common.Constants;
 import com.ngnis.walle.datasource.db.board.GroupBoardDO;
 import com.ngnis.walle.datasource.db.board.GroupBoardMapper;
-import com.ngnis.walle.web.GroupBoardQueryDTO;
+import com.ngnis.walle.center.board.GroupBoardQueryDTO;
 import com.github.pagehelper.PageHelper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

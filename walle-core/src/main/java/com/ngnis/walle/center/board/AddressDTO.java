@@ -1,4 +1,4 @@
-package com.ngnis.walle.core.board;
+package com.ngnis.walle.center.board;
 
 import cn.hutool.core.text.StrFormatter;
 import cn.hutool.core.util.BooleanUtil;
@@ -30,7 +30,7 @@ import java.util.Map;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Address {
+public class AddressDTO {
 
     /**
      * 该Address的条件表达式

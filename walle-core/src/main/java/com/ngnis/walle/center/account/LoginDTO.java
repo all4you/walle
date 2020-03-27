@@ -1,4 +1,4 @@
-package com.ngnis.walle.core.user;
+package com.ngnis.walle.center.account;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -15,7 +15,7 @@ import org.hibernate.validator.constraints.NotBlank;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserLoginDTO {
+public class LoginDTO {
 
     @NotBlank(message = "账号不能为空")
     private String account;

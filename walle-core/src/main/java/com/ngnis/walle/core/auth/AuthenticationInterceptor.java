@@ -11,7 +11,7 @@ import com.ngnis.walle.common.HttpContext;
 import com.ngnis.walle.common.result.ResultCode;
 import com.ngnis.walle.core.SignatureUtil;
 import com.ngnis.walle.datasource.db.user.UserDO;
-import com.ngnis.walle.service.UserService;
+import com.ngnis.walle.service.account.AccountService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -34,7 +34,7 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
     private TokenFactory tokenFactory;
 
     @Resource
-    private UserService userService;
+    private AccountService userService;
 
     @Override
     public boolean preHandle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object object) throws Exception {

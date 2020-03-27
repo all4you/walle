@@ -1,4 +1,4 @@
-package com.ngnis.walle.core.user;
+package com.ngnis.walle.center.account;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
