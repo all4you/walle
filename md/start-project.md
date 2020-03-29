@@ -70,6 +70,7 @@ npm run build:prod
 打包好的资源在 dist/ 目录下，将该目录下的所有文件都拷贝到 walle 的资源目录下：
 
 ```sh
-walle/walle-core/src/main/resources/static/
+rm -rf ~/walle/walle-core/src/main/resources/static/*
+cp -R dist/* ~/walle/walle-core/src/main/resources/static/
 ```
 
