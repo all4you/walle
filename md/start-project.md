@@ -50,3 +50,26 @@ mvn spring-boot:run
 
 **需要注意的是，创建的数据库账号密码要和 application.properties 文件中保持一致。**
 
+
+
+### 前端资源
+
+该项目对应的前端页面是通过 vue 实现的，对应的前端项目是 [walle-web](https://github.com/all4you/walle-web)
+
+修改页面之后需要将最新的资源打包后拷贝到 walle 的资源目录
+
+**1.打包**
+
+```sh
+# 构建生产环境
+npm run build:prod
+```
+
+**2.资源拷贝**
+
+打包好的资源在 dist/ 目录下，将该目录下的所有文件都拷贝到 walle 的资源目录下：
+
+```sh
+walle/walle-core/src/main/resources/static/
+```
+
