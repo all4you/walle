@@ -12,7 +12,6 @@ import com.ngnis.walle.center.msg.MessageCenter;
 import com.ngnis.walle.center.msg.SendGroupMessageDTO;
 import com.ngnis.walle.common.BeanUtil;
 import com.ngnis.walle.common.bean.BeanValidator;
-import com.ngnis.walle.common.log.GenericLogUtil;
 import com.ngnis.walle.common.log.PrintLog;
 import com.ngnis.walle.common.result.BaseResult;
 import com.ngnis.walle.common.result.PojoResult;
@@ -89,7 +88,6 @@ public class DefaultMessageCenter implements MessageCenter {
         if (CollectionUtil.isNotEmpty(reasons)) {
             baseResult.setErrorMessage(ResultCode.BIZ_FAIL.getCode(), String.join("##", reasons));
         }
-        GenericLogUtil.invokeSuccess(log, "sendGroupMessage", StrFormatter.format("dto={}", JSON.toJSONString(messageDTO)), StrFormatter.format("baseResult={}", JSON.toJSONString(baseResult)));
         return baseResult;
     }
 
