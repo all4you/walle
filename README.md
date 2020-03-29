@@ -42,5 +42,15 @@
 
 
 
+### 联系我
+
+欢迎联系我讨论更多细节 
+
+> wh_all4you#hotmail.com
+
+欢迎关注公众号
+
+![CodeChaaaser](md/CodeChaaaser.jpg)
+
 
 
