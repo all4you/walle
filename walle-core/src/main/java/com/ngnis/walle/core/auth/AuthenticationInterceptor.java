@@ -2,12 +2,8 @@ package com.ngnis.walle.core.auth;
 
 import cn.hutool.core.text.StrFormatter;
 import cn.hutool.core.util.StrUtil;
-import com.auth0.jwt.JWT;
-import com.auth0.jwt.JWTVerifier;
-import com.auth0.jwt.algorithms.Algorithm;
-import com.auth0.jwt.exceptions.JWTVerificationException;
-import com.ngnis.walle.common.log.GenericLogUtil;
 import com.ngnis.walle.common.HttpContext;
+import com.ngnis.walle.common.log.GenericLogUtil;
 import com.ngnis.walle.common.result.ResultCode;
 import com.ngnis.walle.core.SignatureUtil;
 import com.ngnis.walle.datasource.db.user.UserDO;
@@ -67,24 +63,12 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
             throw new InvalidTokenException(ResultCode.INVALID_TOKEN.getCode(), "登录态失效，请重新登录");
         }
         // 验证 token
-        JWTVerifier jwtVerifier = JWT.require(Algorithm.HMAC256(tokenFactory.secret())).build();
-        try {
-            jwtVerifier.verify(token);
-        } catch (JWTVerificationException e) {
-            GenericLogUtil.invokeError(log, "checkToken", StrFormatter.format("token={}", token), e);
+        if (!tokenFactory.verify(token)) {
+            GenericLogUtil.invokeFail(log, "checkToken", StrFormatter.format("token={}", token), "invalid token version");
             throw new InvalidTokenException(ResultCode.INVALID_TOKEN.getCode(), "登录态失效，请重新登录");
         }
         // 获取 token 中的 userId
         Long userId = tokenFactory.getUserId(token);
-        if (userId == null) {
-            GenericLogUtil.invokeFail(log, "checkToken", StrFormatter.format("token={}", token), "invalid token");
-            throw new InvalidTokenException(ResultCode.INVALID_TOKEN.getCode(), "登录态失效，请重新登录");
-        }
-        // 判断token的版本号是否有效
-        if (!tokenFactory.validTokenVersion(token)) {
-            GenericLogUtil.invokeFail(log, "checkToken", StrFormatter.format("token={}", token), "invalid token version");
-            throw new InvalidTokenException(ResultCode.INVALID_TOKEN.getCode(), "登录态失效，请重新登录");
-        }
 
         // 将当前用户的信息写入ThreadLocal中
         HttpContext httpContext = HttpContext.currentContext();

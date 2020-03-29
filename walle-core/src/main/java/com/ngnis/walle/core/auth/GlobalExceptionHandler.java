@@ -36,8 +36,8 @@ public class GlobalExceptionHandler {
             errorCode = ResultCode.BIZ_FAIL.getCode();
             errorMsg = StrUtil.isBlank(e.getMessage()) ? ResultCode.BIZ_FAIL.getMessage() : e.getMessage();
         }
-        GenericLogUtil.invokeError(log, "handleException", StrFormatter.format("baseResult={}", JSON.toJSONString(baseResult)), e);
         baseResult.setErrorMessage(errorCode, errorMsg);
+        GenericLogUtil.invokeError(log, "handleException", StrFormatter.format("baseResult={}", JSON.toJSONString(baseResult)), e);
         return baseResult;
     }
 

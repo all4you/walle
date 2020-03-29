@@ -5,6 +5,8 @@ import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.text.StrFormatter;
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.StrUtil;
+import com.auth0.jwt.JWTVerifier;
+import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.ngnis.walle.common.log.GenericLogUtil;
 import com.ngnis.walle.center.account.UserDTO;
 import com.ngnis.walle.datasource.db.user.UserDO;
@@ -81,7 +83,7 @@ public class TokenFactory {
         if (tokenVersion == null) {
             tokenVersion = VALID_VERSION;
         }
-        // TODO 这里需要对保存的token进行清理，当失效时间到达时自动清理掉
+        // 这里需要对保存的token进行清理，当失效时间到达时自动清理掉
         userTokenVersions.putIfAbsent(key, tokenVersion);
         // token中保存了部分非敏感信息
         return JWT.create()
@@ -100,6 +102,23 @@ public class TokenFactory {
                 .sign(Algorithm.HMAC256(this.secret()));
     }
 
+    public boolean verify(String token) {
+        return validToken(token) && validTokenVersion(token);
+    }
+
+    public boolean validToken(String token) {
+        JWTVerifier jwtVerifier = JWT.require(Algorithm.HMAC256(this.secret())).build();
+        try {
+            jwtVerifier.verify(token);
+        } catch (JWTVerificationException e) {
+            GenericLogUtil.invokeError(log, "validToken", StrFormatter.format("token={}", token), e);
+            // 当token无效时，将token从map中移除
+            this.removeTokenWithTokenId(token);
+            return false;
+        }
+        return true;
+    }
+
     public boolean validTokenVersion(String token) {
         Map<String, Claim> claimMap = getClaims(token);
         if (CollectionUtil.isEmpty(claimMap)) {
@@ -114,6 +133,16 @@ public class TokenFactory {
         Integer tokenVersion = userTokenVersions.get(key);
         // 当前token的版本号必须等于 VALID_VERSION
         return tokenVersion != null && tokenVersion.equals(VALID_VERSION);
+    }
+
+    public void removeTokenWithUserId(String token) {
+        Long userId = this.getUserId(token);
+        this.removeTokenByUserId(userId);
+    }
+
+    public void removeTokenWithTokenId(String token) {
+        String tokenId = this.getTokenId(token);
+        this.removeTokenByTokenId(tokenId);
     }
 
     /**

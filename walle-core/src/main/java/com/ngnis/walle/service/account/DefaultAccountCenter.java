@@ -114,9 +114,8 @@ public class DefaultAccountCenter implements AccountCenter {
 
     @Override
     public BaseResult logout(LogoutDTO logoutDTO) {
-        // 将当前登录的token置为失效
-        String tokenId = tokenFactory.getTokenId(HttpContext.currentContext().getToken());
-        tokenFactory.removeTokenByTokenId(tokenId);
+        // 将当前登录的token移除
+        tokenFactory.removeTokenWithTokenId(HttpContext.currentContext().getToken());
         return new BaseResult();
     }
 
