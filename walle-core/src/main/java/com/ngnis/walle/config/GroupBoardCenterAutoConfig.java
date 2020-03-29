@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Bean;
 /**
  * @author houyi
  */
-public class BoardAutoConfiguration {
+public class GroupBoardCenterAutoConfig {
 
     /**
      * 创建DefaultGroupBoardCenter

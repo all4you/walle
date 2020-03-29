@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Bean;
 /**
  * @author houyi
  */
-public class AccountAutoConfiguration {
+public class AccountCenterAutoConfig {
 
     /**
      * 创建DefaultAccountCenter

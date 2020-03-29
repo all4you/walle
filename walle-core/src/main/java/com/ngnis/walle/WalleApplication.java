@@ -1,6 +1,6 @@
 package com.ngnis.walle;
 
-import com.ngnis.walle.config.WalleAutoConfiguration;
+import com.ngnis.walle.config.WalleAutoConfig;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
@@ -8,7 +8,7 @@ import tk.mybatis.spring.annotation.MapperScan;
 
 /**
  * Web应用启动入口
- * 在 spring.factories 文件中指定了 {@link WalleAutoConfiguration} 的自动装配类
+ * 在 spring.factories 文件中指定了 {@link WalleAutoConfig} 的自动装配类
  * 可以通过 {@link EnableWalle} 装配:
  * <ul>
  * <li>{@link com.ngnis.walle.center.account.AccountCenter}</li>
@@ -20,7 +20,7 @@ import tk.mybatis.spring.annotation.MapperScan;
  * <li>{@link com.ngnis.walle.center.account.AccountCenter}</li>
  * </ul>
  * <p>
- * 或者获取通过 {@link EnableBoardCenter} 来单独装配：
+ * 或者获取通过 {@link EnableGroupBoardCenter} 来单独装配：
  * <ul>
  * <li>{@link com.ngnis.walle.center.board.GroupBoardCenter}</li>
  * </ul>

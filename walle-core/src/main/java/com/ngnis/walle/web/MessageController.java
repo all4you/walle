@@ -1,7 +1,7 @@
 package com.ngnis.walle.web;
 
-import com.ngnis.walle.center.board.GroupBoardCenter;
-import com.ngnis.walle.center.board.SendGroupMessageDTO;
+import com.ngnis.walle.center.msg.MessageCenter;
+import com.ngnis.walle.center.msg.SendGroupMessageDTO;
 import com.ngnis.walle.common.result.BaseResult;
 import com.ngnis.walle.core.auth.CheckToken;
 import lombok.extern.slf4j.Slf4j;
@@ -24,7 +24,7 @@ import javax.annotation.Resource;
 public class MessageController extends BaseController {
 
     @Resource
-    private GroupBoardCenter boardCenter;
+    private MessageCenter messageCenter;
 
     /**
      * 发送消息
@@ -33,7 +33,7 @@ public class MessageController extends BaseController {
     @PostMapping(ApiConstant.Urls.MESSAGE_SEND_GROUP_MSG)
     public BaseResult sendMessage(@RequestBody SendGroupMessageDTO messageDTO) {
         SendGroupMessageDTO newMessageDTO = newGroupMessageDTO(messageDTO);
-        return boardCenter.sendGroupMessage(newMessageDTO);
+        return messageCenter.sendGroupMessage(newMessageDTO);
     }
 
 

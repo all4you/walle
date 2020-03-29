@@ -1,4 +1,4 @@
-package com.ngnis.walle.center.board;
+package com.ngnis.walle.center.msg;
 
 import lombok.Data;
 import org.hibernate.validator.constraints.NotBlank;

@@ -2,6 +2,7 @@ package com.ngnis.walle.web;
 
 import com.ngnis.walle.center.board.GroupBoardCenter;
 import com.ngnis.walle.center.board.GroupBoardDTO;
+import com.ngnis.walle.center.board.GroupBoardMatchDTO;
 import com.ngnis.walle.center.board.GroupBoardQueryDTO;
 import com.ngnis.walle.common.result.BaseResult;
 import com.ngnis.walle.common.result.PageResult;
@@ -73,8 +74,8 @@ public class GroupBoardController extends BaseController {
     @CheckToken
     @PostMapping(ApiConstant.Urls.REMOVE_BOARD)
     public BaseResult removeGroupBoard(@RequestParam String boardCode) {
-        GroupBoardDTO boardDTO = newBoardDTO(boardCode);
-        return groupBoardCenter.removeGroupBoard(boardDTO);
+        GroupBoardMatchDTO boardMatchDTO = newBoardMatchDTO(boardCode);
+        return groupBoardCenter.removeGroupBoard(boardMatchDTO);
     }
 
     /**
@@ -83,8 +84,8 @@ public class GroupBoardController extends BaseController {
     @CheckToken
     @GetMapping(ApiConstant.Urls.FIND_BOARD)
     public PojoResult<GroupBoardDTO> findGroupBoard(@PathVariable String boardCode) {
-        GroupBoardDTO boardDTO = newBoardDTO(boardCode);
-        return groupBoardCenter.findGroupBoard(boardDTO);
+        GroupBoardMatchDTO boardMatchDTO = newBoardMatchDTO(boardCode);
+        return groupBoardCenter.findGroupBoard(boardMatchDTO);
     }
 
 }

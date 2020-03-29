@@ -1,2 +1,2 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-com.ngnis.walle.config.WalleAutoConfiguration
+com.ngnis.walle.config.WalleAutoConfig

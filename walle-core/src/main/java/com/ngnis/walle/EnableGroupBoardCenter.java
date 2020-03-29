@@ -1,12 +1,12 @@
 package com.ngnis.walle;
 
-import com.ngnis.walle.config.AccountCenterAutoConfig;
+import com.ngnis.walle.config.GroupBoardCenterAutoConfig;
 import org.springframework.context.annotation.Import;
 
 import java.lang.annotation.*;
 
 /**
- * 开启并注入默认的AccountCenter
+ * 开启并注入默认的GroupBoardCenter
  *
  * @author houyi.wh
  * @since 2018-09-09
@@ -14,7 +14,7 @@ import java.lang.annotation.*;
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-@Import({AccountCenterAutoConfig.class})
-public @interface EnableAccountCenter {
+@Import({GroupBoardCenterAutoConfig.class})
+public @interface EnableGroupBoardCenter {
 
 }

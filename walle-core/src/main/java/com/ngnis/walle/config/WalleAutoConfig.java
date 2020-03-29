@@ -4,7 +4,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.cors.CorsConfiguration;
@@ -18,8 +17,7 @@ import org.springframework.web.filter.CorsFilter;
  * @since 2018-09-09
  */
 @Slf4j
-@Configuration
-public class WalleAutoConfiguration {
+public class WalleAutoConfig {
 
 
     /**

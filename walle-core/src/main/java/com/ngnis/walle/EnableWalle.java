@@ -1,8 +1,8 @@
 package com.ngnis.walle;
 
-import com.ngnis.walle.config.AccountAutoConfiguration;
-import com.ngnis.walle.config.BoardAutoConfiguration;
-import com.ngnis.walle.config.WalleAutoConfiguration;
+import com.ngnis.walle.config.AccountCenterAutoConfig;
+import com.ngnis.walle.config.GroupBoardCenterAutoConfig;
+import com.ngnis.walle.config.MessageCenterAutoConfig;
 import org.springframework.context.annotation.Import;
 
 import java.lang.annotation.*;
@@ -16,7 +16,11 @@ import java.lang.annotation.*;
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-@Import({AccountAutoConfiguration.class, BoardAutoConfiguration.class})
+@Import({
+        AccountCenterAutoConfig.class,
+        GroupBoardCenterAutoConfig.class,
+        MessageCenterAutoConfig.class
+})
 public @interface EnableWalle {
 
 }

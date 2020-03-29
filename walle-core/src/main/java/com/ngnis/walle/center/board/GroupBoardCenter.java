@@ -30,18 +30,18 @@ public interface GroupBoardCenter {
     /**
      * 删除模板
      *
-     * @param boardDTO 模板编码
+     * @param boardMatchDTO 模板匹配对象
      * @return 是否成功
      */
-    BaseResult removeGroupBoard(GroupBoardDTO boardDTO);
+    BaseResult removeGroupBoard(GroupBoardMatchDTO boardMatchDTO);
 
     /**
      * 查询模板
      *
-     * @param boardDTO 模板编码
+     * @param boardMatchDTO 模板匹配对象
      * @return 模板
      */
-    PojoResult<GroupBoardDTO> findGroupBoard(GroupBoardDTO boardDTO);
+    PojoResult<GroupBoardDTO> findGroupBoard(GroupBoardMatchDTO boardMatchDTO);
 
     /**
      * 根据查询条件获取分页的结果
@@ -56,9 +56,5 @@ public interface GroupBoardCenter {
      */
     PojoResult<Integer> getGroupBoardCnt(GroupBoardQueryDTO queryDTO);
 
-    /**
-     * 发送群消息
-     */
-    BaseResult sendGroupMessage(SendGroupMessageDTO dto);
 
 }

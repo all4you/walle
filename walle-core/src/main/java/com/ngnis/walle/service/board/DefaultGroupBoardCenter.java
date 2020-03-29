@@ -2,24 +2,20 @@ package com.ngnis.walle.service.board;
 
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.text.StrFormatter;
-import cn.hutool.core.util.StrUtil;
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageInfo;
 import com.ngnis.walle.center.board.*;
 import com.ngnis.walle.common.BeanUtil;
 import com.ngnis.walle.common.Constants;
 import com.ngnis.walle.common.bean.BeanMapper;
-import com.ngnis.walle.common.bean.BeanValidator;
-import com.ngnis.walle.common.log.GenericLogUtil;
 import com.ngnis.walle.common.log.PrintLog;
 import com.ngnis.walle.common.result.*;
-import com.ngnis.walle.core.message.Message;
-import com.ngnis.walle.core.sender.DingTalkResponse;
-import com.ngnis.walle.core.sender.Sender;
 import com.ngnis.walle.datasource.db.board.GroupBoardDO;
 import lombok.extern.slf4j.Slf4j;
 
-import java.util.*;
+import java.util.Collections;
+import java.util.Date;
+import java.util.List;
 import java.util.stream.Collectors;
 
 /**
@@ -32,12 +28,9 @@ public class DefaultGroupBoardCenter implements GroupBoardCenter {
 
     private GroupBoardService boardService;
 
-    private Sender sender;
-
     public DefaultGroupBoardCenter() {
         this.spanner = BeanUtil.getBean(Spanner.class);
         this.boardService = BeanUtil.getBean(GroupBoardService.class);
-        this.sender = BeanUtil.getBean(Sender.class);
     }
 
 
@@ -85,10 +78,10 @@ public class DefaultGroupBoardCenter implements GroupBoardCenter {
 
     @PrintLog
     @Override
-    public synchronized BaseResult removeGroupBoard(GroupBoardDTO boardDTO) {
+    public synchronized BaseResult removeGroupBoard(GroupBoardMatchDTO boardMatchDTO) {
         BaseResult baseResult = new BaseResult();
-        Long userId = boardDTO.getUserId();
-        String boardCode = boardDTO.getBoardCode();
+        Long userId = boardMatchDTO.getUserId();
+        String boardCode = boardMatchDTO.getBoardCode();
         GroupBoardDO boardDO = boardService.getGroupBoardDO(userId, boardCode);
         if (boardDO == null) {
             baseResult.setErrorMessage(ResultCode.RESOURCE_NOT_FOUND.getCode(), StrFormatter.format("模板编号({})不存在", boardCode));
@@ -100,9 +93,9 @@ public class DefaultGroupBoardCenter implements GroupBoardCenter {
 
     @PrintLog
     @Override
-    public PojoResult<GroupBoardDTO> findGroupBoard(GroupBoardDTO boardDTO) {
+    public PojoResult<GroupBoardDTO> findGroupBoard(GroupBoardMatchDTO boardMatchDTO) {
         PojoResult<GroupBoardDTO> pojoResult = new PojoResult<>();
-        GroupBoardDO boardDO = boardService.getGroupBoardDO(boardDTO.getUserId(), boardDTO.getBoardCode());
+        GroupBoardDO boardDO = boardService.getGroupBoardDO(boardMatchDTO.getUserId(), boardMatchDTO.getBoardCode());
         if (boardDO == null) {
             pojoResult.setErrorMessage(ResultCode.RESOURCE_NOT_FOUND.getCode(), "模板不存在");
         } else {
@@ -145,51 +138,6 @@ public class DefaultGroupBoardCenter implements GroupBoardCenter {
         return pojoResult;
     }
 
-    @PrintLog
-    @Override
-    @SuppressWarnings("unchecked")
-    public BaseResult sendGroupMessage(SendGroupMessageDTO messageDTO) {
-        BaseResult baseResult = BeanValidator.validate(messageDTO);
-        if (!baseResult.isSuccess()) {
-            return baseResult;
-        }
-        Map<String, Object> data = new HashMap<>();
-        if (StrUtil.isNotBlank(messageDTO.getData())) {
-            try {
-                data = JSON.parseObject(messageDTO.getData(), Map.class);
-            } catch (Exception e) {
-                baseResult.setErrorMessage(ResultCode.PARAM_INVALID.getCode(), "携带的数据只能是JSON格式");
-                return baseResult;
-            }
-        }
-        GroupBoardDO boardDO = boardService.getGroupBoardDO(messageDTO.getUserId(), messageDTO.getBoardCode());
-        if (boardDO == null) {
-            baseResult.setErrorMessage(ResultCode.RESOURCE_NOT_FOUND.getCode(), "模板不存在");
-            return baseResult;
-        }
-        GroupBoardDTO boardDTO = transfer(boardDO);
-        List<AddressDTO> addresses = boardDTO.getAddresses();
-        List<String> reasons = new ArrayList<>();
-        for (AddressDTO address : addresses) {
-            if (!address.matchCondition(data)) {
-                reasons.add(StrFormatter.format("[消息未发送]目标:{},原因:条件不匹配", address.getName()));
-                continue;
-            }
-            // 将模板和数据转换成待发布的消息对象
-            Message message = spanner.make(boardDTO, data);
-            // 将message发送到指定的address
-            PojoResult<DingTalkResponse> pojoResult = sender.send(address, message, DingTalkResponse.class);
-            DingTalkResponse response = pojoResult.getContent();
-            if (!pojoResult.isSuccess() || response.getErrcode() != 0) {
-                reasons.add(StrFormatter.format("[发送消息失败]目标:{},原因:{}({})", address.getName(), response.getErrmsg(), response.getErrcode()));
-            }
-        }
-        if (CollectionUtil.isNotEmpty(reasons)) {
-            baseResult.setErrorMessage(ResultCode.BIZ_FAIL.getCode(), String.join("##", reasons));
-        }
-        GenericLogUtil.invokeSuccess(log, "sendGroupMessage", StrFormatter.format("dto={}", JSON.toJSONString(messageDTO)), StrFormatter.format("baseResult={}", JSON.toJSONString(baseResult)));
-        return baseResult;
-    }
 
     private GroupBoardDTO transfer(GroupBoardDO boardDO) {
         if (boardDO == null) {

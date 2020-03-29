@@ -4,8 +4,9 @@ import com.ngnis.walle.center.account.LogoutDTO;
 import com.ngnis.walle.center.account.QueryDTO;
 import com.ngnis.walle.center.account.UpdatePwdDTO;
 import com.ngnis.walle.center.board.GroupBoardDTO;
+import com.ngnis.walle.center.board.GroupBoardMatchDTO;
 import com.ngnis.walle.center.board.GroupBoardQueryDTO;
-import com.ngnis.walle.center.board.SendGroupMessageDTO;
+import com.ngnis.walle.center.msg.SendGroupMessageDTO;
 import com.ngnis.walle.common.HttpContext;
 import com.ngnis.walle.common.bean.BeanMapper;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -46,12 +47,11 @@ public class BaseController {
                 .build();
     }
 
-    GroupBoardDTO newBoardDTO(String boardCode) {
-        return newBoardDTO(
-                GroupBoardDTO.builder()
-                        .boardCode(boardCode)
-                        .build()
-        );
+    GroupBoardMatchDTO newBoardMatchDTO(String boardCode) {
+        return GroupBoardMatchDTO.builder()
+                .userId(HttpContext.currentContext().getUserId())
+                .boardCode(boardCode)
+                .build();
     }
 
     GroupBoardDTO newBoardDTO(GroupBoardDTO board) {
