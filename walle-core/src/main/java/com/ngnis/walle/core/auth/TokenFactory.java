@@ -81,6 +81,7 @@ public class TokenFactory {
         if (tokenVersion == null) {
             tokenVersion = VALID_VERSION;
         }
+        // TODO 这里需要对保存的token进行清理，当失效时间到达时自动清理掉
         userTokenVersions.putIfAbsent(key, tokenVersion);
         // token中保存了部分非敏感信息
         return JWT.create()
@@ -124,7 +125,7 @@ public class TokenFactory {
     }
 
     /**
-     * 将该用户下所有以 userId# 开头的token都删除
+     * 将所有以 #tokenId 结尾的token都删除
      */
     public void removeTokenByTokenId(String tokenId) {
         String suffixKey = StrFormatter.format("#{}", tokenId);
