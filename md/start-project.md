@@ -16,7 +16,7 @@ mvn clean package
 打包时跳过测试：
 
 ```sh
-mvn clean --DskipTests package
+mvn clean package -DskipTests
 ```
 
 打好的包在这个目录：
