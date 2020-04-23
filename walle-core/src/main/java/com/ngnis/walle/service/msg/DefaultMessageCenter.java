@@ -10,7 +10,6 @@ import com.ngnis.walle.center.board.GroupBoardDTO;
 import com.ngnis.walle.center.board.GroupBoardMatchDTO;
 import com.ngnis.walle.center.msg.MessageCenter;
 import com.ngnis.walle.center.msg.SendGroupMessageDTO;
-import com.ngnis.walle.common.BeanUtil;
 import com.ngnis.walle.common.bean.BeanValidator;
 import com.ngnis.walle.common.log.PrintLog;
 import com.ngnis.walle.common.result.BaseResult;
@@ -39,10 +38,10 @@ public class DefaultMessageCenter implements MessageCenter {
 
     private Sender sender;
 
-    public DefaultMessageCenter() {
-        this.groupBoardCenter = BeanUtil.getBean(GroupBoardCenter.class);
-        this.spanner = BeanUtil.getBean(Spanner.class);
-        this.sender = BeanUtil.getBean(Sender.class);
+    public DefaultMessageCenter(GroupBoardCenter groupBoardCenter, Spanner spanner, Sender sender) {
+        this.groupBoardCenter = groupBoardCenter;
+        this.spanner = spanner;
+        this.sender = sender;
     }
 
 

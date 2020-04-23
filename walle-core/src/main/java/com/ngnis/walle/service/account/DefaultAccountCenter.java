@@ -4,7 +4,6 @@ import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.lang.Assert;
 import cn.hutool.core.text.StrFormatter;
 import com.ngnis.walle.center.account.*;
-import com.ngnis.walle.common.BeanUtil;
 import com.ngnis.walle.common.HttpContext;
 import com.ngnis.walle.common.bean.BeanValidator;
 import com.ngnis.walle.common.bean.Validate;
@@ -29,9 +28,9 @@ public class DefaultAccountCenter implements AccountCenter {
 
     private TokenFactory tokenFactory;
 
-    public DefaultAccountCenter() {
-        this.accountService = BeanUtil.getBean(AccountService.class);
-        this.tokenFactory = BeanUtil.getBean(TokenFactory.class);
+    public DefaultAccountCenter(AccountService accountService, TokenFactory tokenFactory) {
+        this.accountService = accountService;
+        this.tokenFactory = tokenFactory;
     }
 
     /**

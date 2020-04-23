@@ -5,7 +5,6 @@ import cn.hutool.core.text.StrFormatter;
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageInfo;
 import com.ngnis.walle.center.board.*;
-import com.ngnis.walle.common.BeanUtil;
 import com.ngnis.walle.common.Constants;
 import com.ngnis.walle.common.bean.BeanMapper;
 import com.ngnis.walle.common.log.PrintLog;
@@ -28,9 +27,9 @@ public class DefaultGroupBoardCenter implements GroupBoardCenter {
 
     private GroupBoardService boardService;
 
-    public DefaultGroupBoardCenter() {
-        this.spanner = BeanUtil.getBean(Spanner.class);
-        this.boardService = BeanUtil.getBean(GroupBoardService.class);
+    public DefaultGroupBoardCenter(Spanner spanner, GroupBoardService boardService) {
+        this.spanner = spanner;
+        this.boardService = boardService;
     }
 
 
