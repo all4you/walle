@@ -131,6 +131,10 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <version>2.2.5.RELEASE</version>
                 <configuration>
+                    <!-- 是否跳过打包成可执行jar包，默认不跳过 -->
+                    <!-- 执行 [mvn package] 将打包成可执行jar -->
+                    <!-- 执行 [mvn package -Dskip.exe=true] 将打包成普通jar -->
+                    <skip>${skip.exe}</skip>
                     <mainClass>com.ngnis.walle.WalleApplication</mainClass>
                     <layout>JAR</layout>
                 </configuration>

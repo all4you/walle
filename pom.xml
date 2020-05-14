@@ -36,6 +36,7 @@
         <java-jwt-version>3.10.0</java-jwt-version>
         <aviator-version>4.2.10</aviator-version>
         <junit-version>4.12</junit-version>
+        <skip.exe>false</skip.exe>
     </properties>
 
     <dependencies>
