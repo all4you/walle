@@ -35,7 +35,7 @@
         <fastjson-version>1.2.65</fastjson-version>
         <java-jwt-version>3.10.0</java-jwt-version>
         <aviator-version>4.2.10</aviator-version>
-        <junit-version>4.12</junit-version>
+        <junit-version>4.13.1</junit-version>
         <skip.exe>false</skip.exe>
     </properties>
 
